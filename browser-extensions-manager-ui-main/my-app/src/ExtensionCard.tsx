@@ -10,7 +10,7 @@ export interface ExtensionCardProps {
 
 const ExtensionCard = ({ title, description, imagePath, enabled, onToggle }: ExtensionCardProps) => {
   return (
-    <div className="flex flex-col justify-between p-4 border border-gray-200 rounded-lg bg-gray-800 text-gray-100 w-64 h-36">
+    <div className="flex flex-col justify-between p-4 border border-gray-200 rounded-lg bg-gray-800 text-gray-100 w-72 h-36">
         <div className="flex justify-start gap-3">
             <img src={imagePath} alt={title} className="w-10 h-10" />
             <div className="flex flex-col items-start">
