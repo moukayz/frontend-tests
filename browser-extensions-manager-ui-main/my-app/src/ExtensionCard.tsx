@@ -1,7 +1,4 @@
-import { useContext } from "react";
 import SwitchButton from "./SwitchButton";
-import { ThemeContext } from "./ThemeContext";
-import { themeConfig } from "./ThemeConfig";
 
 export interface ExtensionCardProps {
   title: string;
@@ -13,11 +10,9 @@ export interface ExtensionCardProps {
 }
 
 const ExtensionCard = ({ title, description, imagePath, enabled, onToggle, onRemove }: ExtensionCardProps) => {
-  const { theme } = useContext(ThemeContext);
-
   return (
     <div
-      className={`flex h-36 w-72 flex-col justify-between rounded-lg border border-gray-300 p-4 shadow ${themeConfig[theme].cardBackground} ${themeConfig[theme].textColor}`}
+      className={`flex h-36 w-72 flex-col justify-between rounded-lg border border-gray-300 bg-surface-variant p-4 text-foreground shadow`}
     >
       <div className="flex justify-start gap-3">
         <img src={imagePath} alt={title} className="h-10 w-10" />
@@ -29,7 +24,7 @@ const ExtensionCard = ({ title, description, imagePath, enabled, onToggle, onRem
 
       <div className="mt-4 flex items-center justify-between">
         <button
-          className={`rounded-full border border-gray-400 px-2 py-1 text-xs ${themeConfig[theme].hoverBackground} ${themeConfig[theme].hoverTextColor}`}
+          className={`rounded-full border border-gray-400 px-2 py-1 text-xs hover:bg-primary-hover hover:text-inverse-foreground`}
           onClick={onRemove}
         >
           Remove

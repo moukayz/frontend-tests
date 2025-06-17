@@ -2,6 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {            /* optional “default” if JS hasn’t mounted yet */
+  --surface: 255 255 255;
+  --foreground: 17 24 39;
+  --primary: 79 70 229;
+  --secondary: 16 185 129;
+}
+
+[data-theme='light'] {
+  --surface: 255 255 255;
+  --surface-variant: 243 244 246;
+  --foreground: 0 0 0;
+  --inverse-foreground: 255 255 255;
+  --primary: 243 244 246;
+  --primary-hover: 248 113 113;
+  --secondary: 229 231 235;
+  --secondary-hover: 209 213 219;
+  --theme-icon: url("/assets/images/icon-moon.svg");
+}
+
+[data-theme='dark'] {
+  --surface: 17 24 39;
+  --surface-variant: 31 41 55;
+  --foreground: 255 255 255;
+  --inverse-foreground: 0 0 0;
+  --primary: 79 70 229;
+  --primary-hover: 248 113 113;
+  --secondary: 55 65 81;
+  --secondary-hover: 75 85 99;
+  --theme-icon: url("/assets/images/icon-sun.svg");
+}
+
+@layer components {
+  .theme-icon {
+    @apply inline-block bg-center bg-no-repeat bg-contain;
+    background-image: var(--theme-icon);
+  }
+}
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
