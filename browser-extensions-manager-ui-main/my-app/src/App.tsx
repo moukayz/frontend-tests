@@ -127,7 +127,8 @@ function App() {
   };
 
   return (
-    <div className={`h-screen overflow-y-auto bg-surface p-10 text-foreground`}>
+    <div className={`h-screen overflow-y-auto bg-gradient-to-b 
+                    from-blue-500 via-purple-500 to-pink-500 p-10 text-foreground`}>
       <div className="flex flex-col px-10">
         <div className={`${gridCardStyle} pb-4`}>
           <div className="col-span-full flex items-center justify-between rounded-2xl border-2 border-gray-400 py-2 pl-4 pr-2">
