@@ -5,6 +5,8 @@ export const themeConfig = {
     textColor: "text-black",
     inverseTextColor: "text-white",
     selectedBackground: "bg-red-400",
+    hoverBackground: "hover:bg-red-400",
+    hoverTextColor: "hover:text-white",
   },
   dark: {
     mainBackground: "bg-gray-900",
@@ -12,5 +14,7 @@ export const themeConfig = {
     textColor: "text-white",
     inverseTextColor: "text-black",
     selectedBackground: "bg-red-400",
+    hoverBackground: "hover:bg-red-400",
+    hoverTextColor: "hover:text-black",
   },
 };

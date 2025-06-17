@@ -97,6 +97,10 @@ function App() {
     setData((prevData) => prevData.map((item) => (item.name === name ? { ...item, isActive: !item.isActive } : item)));
   };
 
+  const handleRemove = (name: string) => {
+    setData((prevData) => prevData.filter((item) => item.name !== name));
+  };
+
   let filteredData = data.filter((item) => {
     if (filter === FilterOption.All) return true;
     if (filter === FilterOption.Active) return item.isActive;
@@ -122,6 +126,7 @@ function App() {
   };
 
   const themeIcon = theme === "light" ? "/assets/images/icon-moon.svg" : "/assets/images/icon-sun.svg";
+  const themeIconStyle = theme === "light" ? "bg-gray-200 hover:bg-gray-300" : "bg-gray-700 hover:bg-gray-600";
 
   return (
     <div
@@ -132,7 +137,7 @@ function App() {
           <div className="col-span-full flex items-center justify-between rounded-2xl border-2 border-gray-400 py-2 pl-4 pr-2">
             {/* <img src="/assets/images/logo.svg" alt="logo" color={"white"} className="h-8" /> */}
             <MainLogo className="h-8" />
-            <button className="rounded-lg bg-gray-200 p-2" onClick={handleThemeChange}>
+            <button className={`rounded-lg p-2 ${themeIconStyle}` }onClick={handleThemeChange}>
               <img src={themeIcon} alt="theme" className="h-6" />
             </button>
           </div>
@@ -193,6 +198,7 @@ function App() {
                   imagePath={item.logo}
                   enabled={item.isActive}
                   onToggle={() => handleToggle(item.name)}
+                  onRemove={() => handleRemove(item.name)}
                 />
               </motion.div>
             ))}

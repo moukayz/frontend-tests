@@ -9,14 +9,15 @@ export interface ExtensionCardProps {
   imagePath: string;
   enabled: boolean;
   onToggle: (enabled: boolean) => void;
+  onRemove: () => void;
 }
 
-const ExtensionCard = ({ title, description, imagePath, enabled, onToggle }: ExtensionCardProps) => {
+const ExtensionCard = ({ title, description, imagePath, enabled, onToggle, onRemove }: ExtensionCardProps) => {
   const { theme } = useContext(ThemeContext);
 
   return (
     <div
-      className={`flex shadow h-36 w-72 flex-col justify-between rounded-lg border border-gray-200 p-4 ${themeConfig[theme].cardBackground} ${themeConfig[theme].textColor}`}
+      className={`flex h-36 w-72 flex-col justify-between rounded-lg border border-gray-300 p-4 shadow ${themeConfig[theme].cardBackground} ${themeConfig[theme].textColor}`}
     >
       <div className="flex justify-start gap-3">
         <img src={imagePath} alt={title} className="h-10 w-10" />
@@ -27,7 +28,12 @@ const ExtensionCard = ({ title, description, imagePath, enabled, onToggle }: Ext
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <div className="rounded-full border border-gray-200 px-2 py-1 text-xs">Remove</div>
+        <button
+          className={`rounded-full border border-gray-400 px-2 py-1 text-xs ${themeConfig[theme].hoverBackground} ${themeConfig[theme].hoverTextColor}`}
+          onClick={onRemove}
+        >
+          Remove
+        </button>
         <SwitchButton checked={enabled} onChange={onToggle} size="sm" />
       </div>
     </div>
