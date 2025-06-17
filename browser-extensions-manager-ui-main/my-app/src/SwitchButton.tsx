@@ -1,3 +1,7 @@
+import { useContext } from "react";
+import { ThemeContext } from "./ThemeContext";
+import { themeConfig } from "./ThemeConfig";
+
 export interface SwitchButtonProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
@@ -24,12 +28,13 @@ const sizeClasses = {
 
 const SwitchButton = ({ checked, onChange, size = "md" }: SwitchButtonProps) => {
   const classes = sizeClasses[size];
+  const { theme } = useContext(ThemeContext);
 
   return (
     <button
       type="button"
       role="switch"
-      className={`inline-flex cursor-pointer items-center rounded-full transition-colors duration-200 ${classes.buttonSize} ${checked ? "bg-blue-500" : "bg-gray-300"}`}
+      className={`inline-flex cursor-pointer items-center rounded-full transition-colors duration-200 ${classes.buttonSize} ${checked ? `${themeConfig[theme].selectedBackground}` : "bg-gray-500"}`}
       onClick={() => onChange(!checked)}
     >
       <span

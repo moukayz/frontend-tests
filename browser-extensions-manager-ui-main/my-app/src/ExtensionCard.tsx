@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import SwitchButton from "./SwitchButton";
+import { ThemeContext } from "./ThemeContext";
+import { themeConfig } from "./ThemeConfig";
 
 export interface ExtensionCardProps {
   title: string;
@@ -9,9 +12,12 @@ export interface ExtensionCardProps {
 }
 
 const ExtensionCard = ({ title, description, imagePath, enabled, onToggle }: ExtensionCardProps) => {
-  return (
-    <div className="flex h-36 w-72 flex-col justify-between rounded-lg border border-gray-200 bg-gray-800 p-4 text-gray-100">
+  const { theme } = useContext(ThemeContext);
 
+  return (
+    <div
+      className={`flex shadow h-36 w-72 flex-col justify-between rounded-lg border border-gray-200 p-4 ${themeConfig[theme].cardBackground} ${themeConfig[theme].textColor}`}
+    >
       <div className="flex justify-start gap-3">
         <img src={imagePath} alt={title} className="h-10 w-10" />
         <div className="flex flex-col items-start">
