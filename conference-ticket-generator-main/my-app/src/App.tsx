@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div className="bg-black">
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="m-auto py-4 px-4 flex flex-col items-center justify-start h-screen  text-primary w-full md:w-1/2">
+      <img src="/images/logo-full.svg" alt="logo" className="w-40" />
+
+      <div className="flex flex-col py-8 px-6 text-center">
+        <div className="text-2xl font-extrabold">
+          Your Journey to Coding Conf 2025 Starts Here!
+        </div>
+        <div className="pt-4 text-secondary ">
+          Secure your spot at next year's biggest coding conference.
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      {/* Avatar Upload */}
+      <div className="flex flex-col gap-2 justify-start items-start w-full text-xl">
+        <span>Upload Avatar</span>
+        <div className="w-full items-center justify-start flex flex-col p-4 bg-surface/20 rounded-lg border-2 border-dashed border-surface">
+          <div className="flex space-y-2">
+            <label
+              htmlFor="avatar-upload"
+              className="cursor-pointer bg-surface/20 border border-surface-secondary rounded-lg p-2"
+            >
+              <img src="/images/icon-upload.svg" alt="upload" className="w-8" />
+            </label>
+            <input type="file" id="avatar-upload" className="hidden" />
+          </div>
+          <span className="text-secondary pt-2 text-lg">
+            Drag and drop or click to upload
+          </span>
+        </div>
+        <span className="pt-2 flex items-center gap-2">
+          <img src="/images/icon-info.svg" alt="info" className="w-4" />
+          <span className="text-secondary  text-xs font-light">
+            Upload your photo (PNG or JPG, max size 500KB).
+          </span>
+        </span>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
