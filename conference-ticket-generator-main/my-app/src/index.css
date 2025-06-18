@@ -16,6 +16,17 @@
   }
 }
 
+@layer components {
+  .focus-outline {
+    @apply focus:outline-tertiary focus:outline focus:outline-offset-2;
+  }
+
+}
+
+.hover-effect {
+  @apply hover:bg-surface/50;
+}
+
 @theme inline {
   --color-primary: var(--color-white);
   --color-secondary: var(--color-neutral-300);
