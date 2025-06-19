@@ -20,11 +20,22 @@
   .focus-outline {
     @apply focus:outline-tertiary focus:outline focus:outline-offset-2;
   }
-
 }
 
 .hover-effect {
   @apply hover:bg-surface/50;
+}
+
+.avatar-button {
+  @apply text-secondary py-1 rounded-lg  px-2 bg-surface/20 border border-surface-secondary;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r 
+    from-[hsl(7,86%,67%)] 
+    to-[hsl(0,0%,100%)]
+    bg-clip-text 
+    text-transparent;
 }
 
 @theme inline {
