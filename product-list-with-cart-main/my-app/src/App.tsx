@@ -96,61 +96,69 @@ const Dessert = ({ dessert, cnt, onUpdateCnt }: DessertProps) => {
         <source srcSet={dessert.image.desktop} media="(min-width: 1024px)" />
         <source srcSet={dessert.image.tablet} media="(min-width: 640px)" />
         <img
-          className={`rounded-lg ${isAdded ? "border-2 border-red-500" : ""}`}
+          className={`rounded-lg ${
+            isAdded ? "outline-2 outline-red-500 -outline-offset-2" : ""
+          }`}
           src={dessert.image.mobile}
           alt={dessert.name}
         />
 
-        <button className="text-sm text-white font-medium absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-red-500 rounded-full py-2 flex gap-8 px-4 items-center justify-between ">
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="2"
-            fill="currentColor"
-            viewBox="0 0 10 2"
-          >
-            <path fill="currentColor" d="M0 .375h10v1.25H0V.375Z" />
-          </svg>
-          <span>{cnt}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="10"
-            fill="currentColor"
-            viewBox="0 0 10 10"
-          >
-            <path
-              fill="currentColor"
-              d="M10 4.375H5.625V0h-1.25v4.375H0v1.25h4.375V10h1.25V5.625H10v-1.25Z"
-            />
-          </svg> */}
-          <img src="/assets/images/icon-decrement-quantity.svg" />
-          <span>{cnt}</span>
-          <img src="/assets/images/icon-increment-quantity.svg" />
-        </button>
+        <button className="text-xs font-medium absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2     ">
+          {isAdded && (
+            <div className="bg-red-500 rounded-full py-2 flex gap-8 px-4 items-center justify-between text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                fill="none"
+                viewBox="0 0 10 10"
+                onClick={() => onUpdateCnt(cnt - 1)}
+              >
+                <path fill="currentColor" d="M0 4.375h10v1.25H0z" />
+              </svg>
+              <span>{cnt}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                fill="currentColor"
+                viewBox="0 0 10 10"
+                onClick={() => onUpdateCnt(cnt + 1)}
+              >
+                <path
+                  fill="currentColor"
+                  d="M10 4.375H5.625V0h-1.25v4.375H0v1.25h4.375V10h1.25V5.625H10v-1.25Z"
+                />
+              </svg>
+            </div>
+          )}
 
-        {!isAdded && (
-          <button className="text-sm font-medium absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2  border-rose-800 border hover:border-2 hover:text-rose-800  bg-white rounded-full py-2 flex gap-2 px-6 ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="21"
-              height="20"
-              fill="none"
-              viewBox="0 0 21 20"
+          {!isAdded && (
+            <div
+              onClick={() => onUpdateCnt(1)}
+              className="py-2 flex gap-2 px-6 w-full items-center justify-center bg-white border-rose-800 border hover:border-2 hover:text-rose-800 rounded-full"
             >
-              <g fill="#C73B0F" clip-path="url(#a)">
-                <path d="M6.583 18.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5ZM15.334 18.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5ZM3.446 1.752a.625.625 0 0 0-.613-.502h-2.5V2.5h1.988l2.4 11.998a.625.625 0 0 0 .612.502h11.25v-1.25H5.847l-.5-2.5h11.238a.625.625 0 0 0 .61-.49l1.417-6.385h-1.28L16.083 10H5.096l-1.65-8.248Z" />
-                <path d="M11.584 3.75v-2.5h-1.25v2.5h-2.5V5h2.5v2.5h1.25V5h2.5V3.75h-2.5Z" />
-              </g>
-              <defs>
-                <clipPath id="a">
-                  <path fill="#fff" d="M.333 0h20v20h-20z" />
-                </clipPath>
-              </defs>
-            </svg>
-            <span>Add to cart</span>
-          </button>
-        )}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1.5em"
+                height="1.5em"
+                fill="none"
+                viewBox="0 0 21 20"
+              >
+                <g fill="#C73B0F" clip-path="url(#a)">
+                  <path d="M6.583 18.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5ZM15.334 18.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5ZM3.446 1.752a.625.625 0 0 0-.613-.502h-2.5V2.5h1.988l2.4 11.998a.625.625 0 0 0 .612.502h11.25v-1.25H5.847l-.5-2.5h11.238a.625.625 0 0 0 .61-.49l1.417-6.385h-1.28L16.083 10H5.096l-1.65-8.248Z" />
+                  <path d="M11.584 3.75v-2.5h-1.25v2.5h-2.5V5h2.5v2.5h1.25V5h2.5V3.75h-2.5Z" />
+                </g>
+                <defs>
+                  <clipPath id="a">
+                    <path fill="#fff" d="M.333 0h20v20h-20z" />
+                  </clipPath>
+                </defs>
+              </svg>
+              <span>Add to cart</span>
+            </div>
+          )}
+        </button>
       </picture>
 
       <span className="text-rose-800/50 text-sm">{dessert.category}</span>
@@ -162,11 +170,20 @@ const Dessert = ({ dessert, cnt, onUpdateCnt }: DessertProps) => {
 
 function App() {
   const [data, setData] = useState<DessertInfo[]>([]);
+  const [cart, setCart] = useState<Record<string, number>>({});
 
   useEffect(() => {
     fetch("/data.json")
       .then((response) => response.json())
-      .then((data) => setData(data));
+      .then((data) => {
+        setData(data);
+        setCart(
+          (data as Array<DessertInfo>).reduce((acc, item) => {
+            acc[item.name] = 0;
+            return acc;
+          }, {} as Record<string, number>)
+        );
+      });
   }, []);
 
   return (
@@ -174,7 +191,14 @@ function App() {
       <span className="text-black font-bold text-4xl py-4">Dessert</span>
 
       {data.map((item, index) => (
-        <Dessert key={index} dessert={item} cnt={1} onUpdateCnt={() => {}} />
+        <Dessert
+          key={index}
+          dessert={item}
+          cnt={cart[item.name]}
+          onUpdateCnt={(cnt) => {
+            setCart((prev) => ({ ...prev, [item.name]: cnt }));
+          }}
+        />
       ))}
 
       <Cart />
