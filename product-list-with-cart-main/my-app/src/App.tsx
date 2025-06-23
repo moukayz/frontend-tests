@@ -66,23 +66,25 @@ const Cart = ({ cartInfo, data, onDelete, onConfirm }: CartProps) => {
   );
 
   return (
-    <div className="py-6 px-6 bg-white rounded-lg flex flex-col w-full items-center">
+    <div className="py-6 px-6 bg-white rounded-lg flex flex-col w-full items-center md:w-1/3 md:max-h-[70vh] ">
       <span className="text-rose-700 font-bold text-2xl self-start pb-6">
         Your Cart({totalResult.cnt})
       </span>
       {totalResult.cnt > 0 && (
-        <div className="flex flex-col gap-4 w-full ">
-          {Object.entries(cartInfo)
-            .filter(([, cnt]) => cnt > 0)
-            .map(([name, cnt]) => (
-              <CartItem
-                key={name}
-                onDelete={onDelete}
-                name={name}
-                cnt={cnt}
-                price={data.find((item) => item.name === name)?.price || 0}
-              />
-            ))}
+        <div className="flex flex-col w-full flex-1 min-h-0 ">
+          <div className="flex flex-col gap-4 w-full bg-stone-100 rounded-lg p-4 md:overflow-y-auto ">
+            {Object.entries(cartInfo)
+              .filter(([, cnt]) => cnt > 0)
+              .map(([name, cnt]) => (
+                <CartItem
+                  key={name}
+                  onDelete={onDelete}
+                  name={name}
+                  cnt={cnt}
+                  price={data.find((item) => item.name === name)?.price || 0}
+                />
+              ))}
+          </div>
 
           <div className="flex justify-between py-4 items-center w-full">
             <span className="text-rose-800">Order Total</span>
@@ -248,19 +250,19 @@ const Dessert = ({ dessert, cnt, onUpdateCnt }: DessertProps) => {
   };
 
   return (
-    <div className={`flex flex-col items-start justify-start `}>
-      <picture className="relative mb-8">
+    <div className={`flex h-full flex-col items-start justify-start `}>
+      <picture className="relative flex-1 mb-8">
         <source srcSet={dessert.image.desktop} media="(min-width: 1024px)" />
         <source srcSet={dessert.image.tablet} media="(min-width: 640px)" />
         <img
-          className={`rounded-lg ${
+          className={`h-full w-full object-contain rounded-lg ${
             isAdded ? "outline-2 outline-red-500 -outline-offset-2" : ""
           }`}
           src={dessert.image.mobile}
           alt={dessert.name}
         />
 
-        <button className="text-xs font-medium absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2     ">
+        <button className="text-xs font-medium absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2  cursor-pointer   ">
           {isAdded && updateCntAction()}
 
           {!isAdded && addToCartAction()}
@@ -336,9 +338,13 @@ const ConfirmModal = ({
       />
 
       <div
-        className={`h-[90vh] fixed left-0 bottom-0 w-full z-50 transform transform-transition duration-300 bg-white rounded-t-2xl ${
-          open ? "translate-y-0" : "translate-y-full"
-        } `}
+        className={`h-[90vh] fixed left-0 bottom-0 w-full z-50 transform transform-transition duration-300 bg-white rounded-t-2xl md:transition-none md:h-2/3 md:w-1/3 md:rounded-lg 
+        ${
+          open
+            ? " translate-y-0 md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2"
+            : "translate-y-full"
+        }
+        `}
       >
         <div className="w-full h-full p-6 flex flex-col gap-4">
           <img
@@ -402,30 +408,31 @@ function App() {
   }, []);
 
   return (
-    <>
-      <div className="bg-stone-100 overflow-y-auto flex flex-col items-start justify-center px-4 py-10 gap-4">
-        <span className="text-black font-bold text-4xl py-4">Dessert</span>
-
-        {data.map((item, index) => (
-          <Dessert
-            key={index}
-            dessert={item}
-            cnt={cartInfo[item.name]}
-            onUpdateCnt={(cnt) => {
-              setCartInfo((prev) => ({ ...prev, [item.name]: cnt }));
-            }}
-          />
-        ))}
-
-        <Cart
-          cartInfo={cartInfo}
-          data={data}
-          onDelete={(name) => {
-            setCartInfo((prev) => ({ ...prev, [name]: 0 }));
-          }}
-          onConfirm={() => setConfirmModalOpen(true)}
-        />
+    <div className="bg-stone-100 px-4 py-10 flex flex-col gap-4 md:p-20 md:flex-row md:items-start md:gap-10 md:h-screen">
+      <div className="flex flex-col gap-4 md:h-full">
+        <span className="text-black font-bold text-4xl ">Dessert</span>
+        <div className="  flex flex-col items-start justify-center   gap-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-y-auto">
+          {data.map((item, index) => (
+            <Dessert
+              key={index}
+              dessert={item}
+              cnt={cartInfo[item.name]}
+              onUpdateCnt={(cnt) => {
+                setCartInfo((prev) => ({ ...prev, [item.name]: cnt }));
+              }}
+            />
+          ))}
+        </div>
       </div>
+
+      <Cart
+        cartInfo={cartInfo}
+        data={data}
+        onDelete={(name) => {
+          setCartInfo((prev) => ({ ...prev, [name]: 0 }));
+        }}
+        onConfirm={() => setConfirmModalOpen(true)}
+      />
 
       <ConfirmModal
         open={confirmModalOpen}
@@ -437,7 +444,7 @@ function App() {
           setConfirmModalOpen(false);
         }}
       />
-    </>
+    </div>
   );
 }
 
