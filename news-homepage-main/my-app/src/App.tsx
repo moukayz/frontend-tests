@@ -46,7 +46,7 @@ const ArticleItem = ({ img, index, title, description }: ArticleItemProps) => {
     <div className="flex  gap-6">
       <img className="w-[30%] h-auto" src={img} alt="" />
 
-      <div className="flex flex-col items-start justify-between gap-2">
+      <div className="flex flex-col items-start justify-around gap-2">
         <span className="text-xl text-action font-extrabold ">{index}</span>
         <span className="text-lg text-black font-bold">{title}</span>
         <span className="">{description}</span>
@@ -94,8 +94,8 @@ const navLinks: Array<{ title: string }> = [
 ];
 interface NavbarProps {
   navLinks: Array<{ title: string }>;
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
 }
 
 const MobileNavbar = ({ navLinks, open, setOpen }: NavbarProps) => {
@@ -109,7 +109,7 @@ const MobileNavbar = ({ navLinks, open, setOpen }: NavbarProps) => {
         }
           md:hidden
         `}
-        onClick={() => setOpen(false)}
+        onClick={() => setOpen!(false)}
       ></div>
 
       <div
@@ -120,7 +120,7 @@ const MobileNavbar = ({ navLinks, open, setOpen }: NavbarProps) => {
       >
         <div
           className="px-4 py-8 absolute top-0 right-0 z-30 cursor-pointer "
-          onClick={() => setOpen(false)}
+          onClick={() => setOpen!(false)}
         >
           <img src="/images/icon-menu-close.svg" alt="close" />
         </div>
@@ -135,28 +135,49 @@ const MobileNavbar = ({ navLinks, open, setOpen }: NavbarProps) => {
   );
 };
 
+const DesktopNavbar = ({ navLinks }: NavbarProps) => {
+  return (
+    <div className="hidden lg:flex justify-between items-center gap-10">
+      {navLinks.map((link) => (
+        <div key={link.title}>{link.title}</div>
+      ))}
+    </div>
+  );
+};
+
 function App() {
   const [openSidebar, setOpenSidebar] = useState(false);
   return (
-    <div className="px-4 py-8 text-primary">
+    <div
+      className="px-4 py-8 flex flex-col text-primary
+    lg:px-40 lg:py-16 lg:h-screen
+    "
+    >
       {/* Header */}
       <div className="flex justify-between items-center pb-8">
         <img className="h-8 aspect-ration" src="/images/logo.svg" alt="logo" />
         <img
+          className="lg:hidden"
           src="/images/icon-menu.svg"
           alt="menu"
           onClick={() => setOpenSidebar(true)}
         />
+        <DesktopNavbar navLinks={navLinks} />
       </div>
 
       {/* Main */}
       <div
-        className="flex flex-col gap-12
+        className="grid gap-8 gap-y-14 h-full
+        lg:grid-cols-3
        "
       >
         {/* headline */}
-        <div className="flex flex-col gap-6">
-          <picture>
+        <div
+          className="grid grid-cols-1 gap-8
+        lg:col-span-2 lg:grid-cols-2  lg:gap-x-12 lg:gap-y-0 
+        "
+        >
+          <picture className="lg:col-span-2">
             <source
               srcSet="/images/image-web-3-desktop.jpg"
               media="(min-width: 1024px)"
@@ -164,7 +185,7 @@ function App() {
             <img src="/images/image-web-3-mobile.jpg" alt="web3" />
           </picture>
 
-          <span className="text-black text-5xl font-bold">
+          <span className="text-black text-5xl font-bold lg:row-span-2 lg:self-start">
             The Bright Future of Web 3.0?
           </span>
 
@@ -173,14 +194,17 @@ function App() {
             power of the platforms back into the hands of the people. But is it
             really fulfilling its promise?
           </span>
-
-          <button className="tracking-[0.25rem] self-start font-bold px-6 py-2 text-black bg-action">
+          <button className="tracking-[0.25rem] self-start justify-self-start font-bold px-6 py-2 text-black bg-action">
             READ MORE
           </button>
         </div>
 
         {/* news */}
-        <div className="flex flex-col gap-6 bg-surface px-4 py-6">
+        <div
+          className="flex flex-col gap-6 justify-between bg-surface px-4 py-6
+        lg:col-span-1
+        "
+        >
           <span className="text-2xl font-bold text-title-color">New</span>
           {news.map((item, index) => (
             <>
@@ -195,7 +219,7 @@ function App() {
         </div>
 
         {/* articles */}
-        <div className="flex flex-col gap-8">
+        <div className="grid gap-8 lg:items-start lg:grid-cols-3 lg:col-span-3">
           {articles.map((item, index) => (
             <ArticleItem key={index} {...item} />
           ))}
