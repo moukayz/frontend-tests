@@ -1,21 +1,6 @@
-import Image from "next/image";
 import "./globals.css";
-import { barlowCondensed } from "./fonts";
-// import { usePathname } from "next/navigation";
-
-const Header = () => {
-  return (
-    <div className="flex items-center justify-between p-6">
-      <Image src="/assets/shared/logo.svg" alt="logo" width={40} height={40} />
-      <Image
-        src="/assets/shared/icon-hamburger.svg"
-        alt="menu"
-        width={24}
-        height={21}
-      />
-    </div>
-  );
-};
+import { barlow, barlowCondensed, bellefair } from "./fonts";
+import Header from "./components/Header";
 
 export default function RootLayout({
   children,
@@ -23,9 +8,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${barlowCondensed.variable} ${barlow.variable} ${bellefair.variable}`}
+    >
       <body
-        className={`bg-(image:--home-bg-current) bg-cover bg-center  ${barlowCondensed.className} antialiased flex flex-col h-screen `}
+        className={`bg-(image:--home-bg-current) bg-cover bg-center  
+          font-main antialiased flex flex-col h-screen `}
       >
         <Header />
         {children}
