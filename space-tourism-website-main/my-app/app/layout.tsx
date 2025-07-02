@@ -17,7 +17,8 @@ export default function RootLayout({
           font-main antialiased flex flex-col h-screen `}
       >
         <Header />
-        {children}
+
+        <div className="flex flex-col p-6 h-full gap-6">{children}</div>
       </body>
     </html>
   );

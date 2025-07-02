@@ -20,7 +20,6 @@ export interface DestInfoProps {
 
 export default function DestInfo({ destItems }: DestInfoProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  //   const activeItem = destItems[activeIndex];
 
   const imageView = () => {
     return (
