@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Fadable from "./Fadable";
 
 export interface TechItem {
   name: string;
@@ -17,19 +18,28 @@ export interface TechInfoProps {
 
 export default function TechInfo({ techItems }: TechInfoProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = techItems[activeIndex];
+
   return (
     <div className="flex flex-col gap-8">
       {/* image view */}
-      <div className="mt-16  w-screen -ml-6">
-        <Image
-          src={activeItem.images.portrait}
-          alt={activeItem.name}
-          // fill={true}
-          width={500}
-          height={500}
-          className="w-full h-auto object-cover"
-        />
+      <div className="grid">
+        {techItems.map((item, index) => (
+          <Fadable
+            key={index}
+            show={activeIndex === index}
+            fadeMs={500}
+            className="mt-16  w-screen -ml-6"
+          >
+            <Image
+              src={item.images.portrait}
+              alt={item.name}
+              // fill={true}
+              width={500}
+              height={500}
+              className="w-full h-auto object-cover"
+            />
+          </Fadable>
+        ))}
       </div>
 
       {/* main content */}
@@ -58,10 +68,21 @@ export default function TechInfo({ techItems }: TechInfoProps) {
           <span className="text-lg opacity-50 uppercase">
             The terminology...
           </span>
-          <span className="text-2xl uppercase">{activeItem.name}</span>
-          <span className="text-light-blue font-paragraph min-h-[6lh] text-center ">
-            {activeItem.description}
-          </span>
+          <div className="grid">
+            {techItems.map((item, index) => (
+              <Fadable
+                key={index}
+                show={activeIndex === index}
+                fadeMs={500}
+                className="flex flex-col gap-4 items-center"
+              >
+                <span className="text-2xl uppercase">{item.name}</span>
+                <span className="text-light-blue font-paragraph min-h-[6lh] text-center ">
+                  {item.description}
+                </span>
+              </Fadable>
+            ))}
+          </div>
         </div>
       </div>
     </div>
