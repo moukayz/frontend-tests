@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #171717;
+  --foreground: #ffffff;
+  
+  /* Home page background images */
+  --home-bg-mobile: url("/assets/home/background-home-mobile.jpg");
+  --home-bg-tablet: url("/assets/home/background-home-tablet.jpg");
+  --home-bg-desktop: url("/assets/home/background-home-desktop.jpg");
+  
+  --destination-bg-mobile: url("/assets/destination/background-destination-mobile.jpg");
+  --destination-bg-tablet: url("/assets/destination/background-destination-tablet.jpg");
+  --destination-bg-desktop: url("/assets/destination/background-destination-desktop.jpg");
+
+  --crew-bg-mobile: url("/assets/crew/background-crew-mobile.jpg");
+  --crew-bg-tablet: url("/assets/crew/background-crew-tablet.jpg");
+  --crew-bg-desktop: url("/assets/crew/background-crew-desktop.jpg");
+  
+  --tech-bg-mobile: url("/assets/technology/background-technology-mobile.jpg");
+  --tech-bg-tablet: url("/assets/technology/background-technology-tablet.jpg");
+  --tech-bg-desktop: url("/assets/technology/background-technology-desktop.jpg");
+  
+  --home-bg-current: var(--home-bg-mobile);
+  --destination-bg-current: var(--destination-bg-mobile);
+  --crew-bg-current: var(--crew-bg-mobile);
+  --tech-bg-current: var(--tech-bg-mobile);
+}
+
+/* Update CSS variables based on screen size */
+@media (min-width: 768px) {
+  :root {
+    --home-bg-current: var(--home-bg-tablet);
+    --destination-bg-current: var(--destination-bg-tablet);
+    --crew-bg-current: var(--crew-bg-tablet);
+    --tech-bg-current: var(--tech-bg-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --home-bg-current: var(--home-bg-desktop);
+    --destination-bg-current: var(--destination-bg-desktop);
+    --crew-bg-current: var(--crew-bg-desktop);
+    --tech-bg-current: var(--tech-bg-desktop);
+  }
+}
+
+@layer utilities {
+  /* Responsive background using CSS variable */
+  .bg-home-responsive {
+    @apply bg-cover bg-center bg-no-repeat;
+    background-image: var(--home-bg-current);
+  }
+  
+  /* Individual background utilities */
+  .bg-home-mobile {
+    @apply bg-cover bg-center bg-no-repeat;
+    background-image: var(--home-bg-mobile);
+  }
+  
+  .bg-home-tablet {
+    @apply bg-cover bg-center bg-no-repeat;
+    background-image: var(--home-bg-tablet);
+  }
+  
+  .bg-home-desktop {
+    @apply bg-cover bg-center bg-no-repeat;
+    background-image: var(--home-bg-desktop);
+  }
+
+}
+
+@theme inline {
+  --color-foreground: var(--foreground);
+  /* --color-background: var(--background);
+  /* --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono); */
+}
+
+body {
+  /* background: var(--background); */
+  color: var(--foreground);
+  /* font-family: var(--font-barlow-condensed); */
+}
