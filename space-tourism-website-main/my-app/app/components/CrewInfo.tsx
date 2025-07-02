@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Fadable from "./Fadable";
 
 export interface CrewItem {
   name: string;
@@ -19,21 +20,41 @@ export interface CrewInfoProps {
 
 export default function CrewInfo({ crewItems }: CrewInfoProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = crewItems[activeIndex];
-  return (
-    <div className="flex flex-col gap-8">
-      {/* crew intro */}
-      <div className="pt-10 flex flex-col gap-6 items-center ">
-        {/* name and title */}
+
+  const crewBrief = (item: CrewItem) => {
+    return (
+      <>
         <div className="flex flex-col gap-2 items-center font-focus uppercase">
-          <span className="text-lg opacity-50">{activeItem.role}</span>
-          <span className="text-2xl">{activeItem.name}</span>
+          <span className="text-lg opacity-50">{item.role}</span>
+          <span className="text-2xl">{item.name}</span>
         </div>
 
         {/* bio */}
         <span className="text-light-blue font-paragraph min-h-[6lh] text-center">
-          {activeItem.bio}
+          {item.bio}
         </span>
+      </>
+    );
+  };
+
+  return (
+    <div className="flex flex-col gap-8">
+      {/* crew intro */}
+      <div className="pt-10 flex flex-col gap-6 items-center ">
+        <div className="grid">
+          {crewItems.map((item, index) => {
+            return (
+              <Fadable
+                key={index}
+                show={activeIndex === index}
+                fadeMs={500}
+                className="flex flex-col gap-6 "
+              >
+                {crewBrief(item)}
+              </Fadable>
+            );
+          })}
+        </div>
 
         {/* crew navigation */}
         <div className="flex gap-4">
@@ -52,14 +73,25 @@ export default function CrewInfo({ crewItems }: CrewInfoProps) {
       </div>
 
       {/* crew images */}
-      <div className="flex p-2 justify-center">
-        <Image
-          src={activeItem.images.webp}
-          alt={activeItem.name}
-          width={270}
-          height={340}
-          className="h-[340px] w-auto mask-b-from-77% mask-b-to-100%"
-        />
+      <div className="grid">
+        {crewItems.map((item, index) => {
+          return (
+            <Fadable
+              key={index}
+              show={activeIndex === index}
+              fadeMs={500}
+              className="flex p-2 justify-center"
+            >
+              <Image
+                src={item.images.webp}
+                alt={item.name}
+                width={270}
+                height={340}
+                className="h-[340px] w-auto mask-b-from-77% mask-b-to-100%"
+              />
+            </Fadable>
+          );
+        })}
       </div>
     </div>
   );
