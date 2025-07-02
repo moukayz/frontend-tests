@@ -14,7 +14,7 @@ export default function RootLayout({
     >
       <body
         className={`bg-(image:--home-bg-current) bg-cover bg-center  
-          font-main antialiased flex flex-col h-screen `}
+          font-main antialiased flex flex-col `}
       >
         <Header />
 

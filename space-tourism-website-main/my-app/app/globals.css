@@ -26,7 +26,6 @@
   --crew-bg-current: var(--crew-bg-mobile);
   --tech-bg-current: var(--tech-bg-mobile);
 
-  --color-nav-bg: hsl(230, 35%, 7%);
 
 }
 
@@ -110,6 +109,7 @@
 @theme inline {
   --color-foreground: var(--foreground);
   --color-light-blue: hsl(231, 77%, 90%);
+  --color-nav-bg: hsl(230, 35%, 7%);
   --font-main: var(--font-barlow-condensed);
   --font-focus: var(--font-bellefair);
 
