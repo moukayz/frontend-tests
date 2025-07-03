@@ -20,7 +20,7 @@ export default function RootLayout({
         <Header />
 
         <PageBackground imageClass="bg-(image:--home-bg-current)" />
-        <div className="flex flex-col p-6 lg:p-0 lg:py-12 h-full  gap-6 overflow-y-auto ">
+        <div className="flex flex-col p-6 lg:p-0 lg:py-12 flex-1  gap-6 h-[calc(100vh-88)] overflow-auto lg:h-auto">
           {children}
         </div>
       </body>

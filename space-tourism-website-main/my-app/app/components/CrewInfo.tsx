@@ -38,9 +38,9 @@ export default function CrewInfo({ crewItems }: CrewInfoProps) {
   };
 
   return (
-    <div className="grid lg:my-auto lg:grid-cols-2 items-center gap-8 ">
+    <div className="flex-1 min-h-0 grid  lg:h-auto lg:my-auto grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 items-center gap-8 ">
       {/* crew intro */}
-      <div className="pt-10 flex flex-col gap-6 items-center lg:items-start h-full lg:pt-0 lg:justify-center">
+      <div className="pt-10 flex flex-col gap-6 items-center lg:items-start  lg:pt-0 lg:justify-center">
         <div className="grid ">
           {crewItems.map((item, index) => {
             return (
@@ -73,21 +73,21 @@ export default function CrewInfo({ crewItems }: CrewInfoProps) {
       </div>
 
       {/* crew images */}
-      <div className="grid">
+      <div className="grid h-full">
         {crewItems.map((item, index) => {
           return (
             <Fadable
               key={index}
               show={activeIndex === index}
               fadeMs={500}
-              className="flex p-2 justify-center items-center"
+              className="h-full min-h-0 flex items-center justify-center"
             >
               <Image
                 src={item.images.webp}
                 alt={item.name}
-                width={270}
-                height={340}
-                className="h-[340px] w-auto lg:w-4/5 lg:h-auto mask-b-from-77% mask-b-to-100%"
+                width={300}
+                height={300}
+                className="h-full w-auto lg:w-4/5 lg:h-auto mask-b-from-77% mask-b-to-100%"
               />
             </Fadable>
           );
