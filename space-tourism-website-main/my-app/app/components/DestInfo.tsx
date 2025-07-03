@@ -23,7 +23,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
 
   const imageView = () => {
     return (
-      <div className="grid w-full ">
+      <div className="grid w-full lg:w-[540px] flex-1">
         {destItems.map((item, index) => {
           return (
             <Fadable
@@ -37,6 +37,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
                 alt={item.name}
                 width={150}
                 height={150}
+                className="lg:w-[480px] lg:h-[480px]"
               />
             </Fadable>
           );
@@ -47,7 +48,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
 
   const mainContent = () => {
     const navBar = (
-      <div className="flex items-start h-8 gap-8 text-sm font-main-wide uppercase">
+      <div className="flex items-start h-8 gap-8 text-sm lg:text-base font-main-wide uppercase ">
         {destItems.map((item, index) => (
           <div
             onClick={() => setActiveIndex(index)}
@@ -74,12 +75,14 @@ export default function DestInfo({ destItems }: DestInfoProps) {
               key={index}
               show={activeIndex === index}
               fadeMs={500}
-              className="flex flex-col items-center text-center  gap-4"
+              className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 "
             >
-              <span className={`font-focus text-[3.5rem] uppercase`}>
+              <span
+                className={`font-focus text-[3.5rem] lg:text-[6rem] uppercase`}
+              >
                 {item.name}
               </span>
-              <span className="text-light-blue font-paragraph min-h-[5lh]">
+              <span className="text-light-blue font-paragraph lg:text-lg min-h-[5lh]">
                 {item.description}
               </span>
             </Fadable>
@@ -89,14 +92,14 @@ export default function DestInfo({ destItems }: DestInfoProps) {
     );
 
     const stats = (
-      <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-col lg:flex-row  gap-6 w-full">
         {statsItem("Avg. distance", destItems, "distance")}
         {statsItem("Est. travel time", destItems, "travel")}
       </div>
     );
 
     return (
-      <div className="flex flex-col items-center gap-6">
+      <div className="flex-1 flex flex-col items-center lg:items-start gap-6 lg:gap-10 lg:max-w-[540px] lg:px-10">
         {navBar}
 
         {description}
@@ -113,7 +116,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
       field: keyof DestItem
     ) {
       return (
-        <div className="flex flex-col gap-3 items-center w-full">
+        <div className="flex flex-col gap-3 items-center lg:items-start w-full">
           <span className="text-light-blue font-main-wide uppercase">
             {title}
           </span>
@@ -124,9 +127,9 @@ export default function DestInfo({ destItems }: DestInfoProps) {
                   key={index}
                   show={activeIndex === index}
                   fadeMs={500}
-                  className="flex items-center justify-center"
+                  className="flex items-center lg:items-start lg:justify-start justify-center"
                 >
-                  <span className="font-focus uppercase text-[28px]">
+                  <span className="font-focus uppercase text-[1.75rem]">
                     {item[field] as string}
                   </span>
                 </Fadable>
@@ -139,7 +142,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="lg:my-auto flex flex-col gap-8 lg:flex-row justify-center items-center">
       {imageView()}
 
       {/* main content */}

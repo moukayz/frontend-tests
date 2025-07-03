@@ -53,6 +53,11 @@
     font-family: var(--font-barlow);
     font-size: 15px;
   }
+
+  .font-main-wide {
+    font-family: var(--font-barlow-condensed);
+    letter-spacing: 2px;
+  }
 }
 
 @layer utilities {
@@ -78,10 +83,6 @@
     background-image: var(--home-bg-desktop);
   }
 
-  .font-main-wide {
-    font-family: var(--font-barlow-condensed);
-    letter-spacing: 2px;
-  }
 
   .font-paragraph-lg {
     font-family: var(--font-barlow);

@@ -14,7 +14,7 @@ export default function Home() {
           </span>
           <span className={`font-focus text-[5rem] lg:text-[9rem]`}>SPACE</span>
           <span
-            className={`font-paragraph text-center lg:text-lg lg:text-left`}
+            className={`font-paragraph lg:text-lg text-center  lg:text-left`}
           >
             Let’s face it; if you want to go to space, you might as well
             genuinely go to outer space and not hover kind of on the edge of it.
