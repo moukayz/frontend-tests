@@ -36,6 +36,15 @@ const MobileNavbar = ({
 
   return (
     <>
+      <Image
+        src="/assets/shared/icon-hamburger.svg"
+        alt="menu"
+        width={24}
+        height={21}
+        onClick={() => setOpen!(true)}
+        className="lg:hidden"
+      />
+
       <div
         className={`fixed inset-0 z-40  ${backgroundShadowClass} ${
           open
@@ -88,18 +97,48 @@ const MobileNavbar = ({
     </>
   );
 };
+
+interface DesktopNavbarProps {
+  navLinks: Array<NavLink>;
+}
+
+const DesktopNavbar = ({ navLinks }: DesktopNavbarProps) => {
+  return (
+    <div
+      className="hidden lg:flex items-center justify-end px-16 gap-12 w-full font-main-wide uppercase
+    bg-white/5 backdrop-blur-xl
+    "
+    >
+      {navLinks.map((link) => (
+        <Link
+          key={link.id}
+          href={link.href}
+          className="h-24 flex items-center justify-center gap-3"
+        >
+          <span className="font-bold">{link.id}</span>
+          <span className="">{link.title}</span>
+        </Link>
+      ))}
+    </div>
+  );
+};
+
+const Logo = () => {
+  return (
+    <div className="flex items-center gap-16 w-full lg:-mr-8">
+      <Image src="/assets/shared/logo.svg" alt="logo" width={40} height={40} />
+      <div className="border-b border-white/25 h-0 w-full  hidden lg:block z-10"></div>
+    </div>
+  );
+};
+
 export default function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex items-center justify-between p-6">
-      <Image src="/assets/shared/logo.svg" alt="logo" width={40} height={40} />
-      <Image
-        src="/assets/shared/icon-hamburger.svg"
-        alt="menu"
-        width={24}
-        height={21}
-        onClick={() => setOpen(true)}
-      />
+    <div className="w-full flex items-center justify-between p-6 lg:pt-10 lg:pl-16 lg:pr-0 lg:pb-0 ">
+      <Logo />
+
+      <DesktopNavbar navLinks={links} />
 
       <MobileNavbar navLinks={links} open={open} setOpen={setOpen} />
     </div>

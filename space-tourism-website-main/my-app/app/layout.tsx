@@ -15,12 +15,18 @@ export default function RootLayout({
     >
       <body
         className={`
-          font-main antialiased flex flex-col `}
+          font-main h-screen antialiased flex flex-col `}
       >
         <Header />
 
         <PageBackground imageClass="bg-(image:--home-bg-current)" />
-        <div className="flex flex-col p-6 h-full gap-6">{children}</div>
+        <div
+          className="flex flex-col p-6 h-full gap-6 overflow-y-auto
+         lg:p-0 lg:py-12
+        "
+        >
+          {children}
+        </div>
       </body>
     </html>
   );

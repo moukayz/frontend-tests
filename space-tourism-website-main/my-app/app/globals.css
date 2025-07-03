@@ -48,6 +48,13 @@
   }
 }
 
+@layer components {
+  .font-paragraph {
+    font-family: var(--font-barlow);
+    font-size: 15px;
+  }
+}
+
 @layer utilities {
   /* Responsive background using CSS variable */
   .bg-home-responsive {
@@ -76,9 +83,9 @@
     letter-spacing: 2px;
   }
 
-  .font-paragraph {
+  .font-paragraph-lg {
     font-family: var(--font-barlow);
-    font-size: 15px;
+    font-size: 18px;
   }
 
 }
