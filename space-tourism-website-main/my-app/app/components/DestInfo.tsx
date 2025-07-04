@@ -30,7 +30,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
               key={index}
               show={activeIndex === index}
               fadeMs={500}
-              className="flex items-center justify-center w-full py-6"
+              className="flex items-center justify-center w-full "
             >
               <Image
                 src={item.images.png}
@@ -117,7 +117,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
     ) {
       return (
         <div className="flex flex-col gap-3 items-center lg:items-start w-full">
-          <span className="text-light-blue font-main-wide uppercase">
+          <span className="text-light-blue font-main-wide text-sm uppercase">
             {title}
           </span>
           <div className="grid w-full ">
@@ -129,7 +129,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
                   fadeMs={500}
                   className="flex items-center lg:items-start lg:justify-start justify-center"
                 >
-                  <span className="font-focus uppercase text-[1.75rem]">
+                  <span className="font-focus uppercase text-[1.75rem] leading-8">
                     {item[field] as string}
                   </span>
                 </Fadable>
@@ -142,7 +142,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
   };
 
   return (
-    <div className="lg:my-auto flex flex-col gap-8 lg:flex-row justify-center items-center">
+    <div className="lg:my-auto flex-1 flex flex-col gap-8 lg:flex-row justify-center items-center">
       {imageView()}
 
       {/* main content */}
