@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+:root {
+}
+
+@layer utilities {
+  .text-paragraph {
+    @apply text-gray-500 text-sm  leading-6 ;
+  }
+}
+
+@theme inline {
+}
+
+body {
+  font-family: var(--font-be-vietnam-pro);
+}
