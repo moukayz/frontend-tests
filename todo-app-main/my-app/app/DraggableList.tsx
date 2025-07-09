@@ -27,14 +27,14 @@ export const DragAndDropContext = createContext<DragAndDropContextProps | null>(
 );
 
 interface DraggableListProps<T> {
-  items: T[];
+  //   items: T[];
   onItemsChange: Dispatch<SetStateAction<T[]>>;
   children: ReactNode;
   listClassName?: string;
 }
 
 export function DraggableList<T>({
-  items,
+  //   items,
   onItemsChange,
   children,
   listClassName,
@@ -59,7 +59,6 @@ export function DraggableList<T>({
   const handleDragEnter = useCallback(
     (toIndex: number) => {
       const fromIndex = dragItemIndex.current;
-      console.log("handleDragEnter", toIndex, fromIndex);
       if (fromIndex === null || fromIndex === toIndex) return;
 
       onItemsChange((items) => {
@@ -186,7 +185,7 @@ export function DraggableList<T>({
     ]
   );
 
-  console.log("render DraggableList");
+  //   console.log("render DraggableList");
 
   return (
     <DragAndDropContext.Provider value={contextValue}>

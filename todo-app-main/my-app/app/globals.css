@@ -3,6 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --bg-main: url("/images/bg-mobile-light.jpg");
+  --color-very-dark-blue: hsl(235, 21%, 11%);
+  --color-very-dark-desaturated-blue: hsl(235, 24%, 19%);
+  --color-light-grayish-blue: hsl(234, 39%, 85%);
+  --color-light-grayish-blue-hover: hsl(236, 33%, 92%);
+  --color-dark-grayish-blue: hsl(234, 11%, 52%);
+  --color-very-dark-grayish-blue: hsl(233, 14%, 35%);
+  --color-very-dark-grayish-blue: hsl(237, 14%, 26%);
+  --color-bright-blue: hsl(220, 98%, 61%);
 }
 
 @theme inline {
@@ -12,15 +21,31 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+.dark {
+    --background: var(--color-very-dark-blue);
+    --foreground: #ededed;
+    --bg-main: url("/images/bg-mobile-dark.jpg");
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: var(--color-very-dark-blue);
     --foreground: #ededed;
+    --bg-main: url("/images/bg-mobile-dark.jpg");
   }
 }
 
 body {
-  background: var(--background);
+  background-image: var(--bg-main);
+  background-repeat: no-repeat;
+  background-position: top center;
+  /* background-size: 100% 20%; */
+  background-color: var(--background);
+
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 18px;
 }
