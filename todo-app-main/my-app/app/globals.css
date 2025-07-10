@@ -1,9 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --bg-main: url("/images/bg-mobile-light.jpg");
+
+/* - Very Light Gray: hsl(0, 0%, 98%)
+- Very Light Grayish Blue: hsl(236, 33%, 92%)
+- Light Grayish Blue: hsl(233, 11%, 84%)
+- Dark Grayish Blue: hsl(236, 9%, 61%)
+- Very Dark Grayish Blue: hsl(235, 19%, 35%) */
+
+  --color-very-light-gray: hsl(0, 0%, 98%);
+  --color-very-light-grayish-blue: hsl(236, 33%, 92%);
+
   --color-very-dark-blue: hsl(235, 21%, 11%);
   --color-very-dark-desaturated-blue: hsl(235, 24%, 19%);
   --color-light-grayish-blue: hsl(234, 39%, 85%);
@@ -12,30 +19,46 @@
   --color-very-dark-grayish-blue: hsl(233, 14%, 35%);
   --color-very-dark-grayish-blue: hsl(237, 14%, 26%);
   --color-bright-blue: hsl(220, 98%, 61%);
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --background: var(--color-very-light-gray);
+  --foreground: var(--color-very-dark-grayish-blue);
+  --bg-main: url("/images/bg-mobile-light.jpg");
+  --bg-surface: #ffffff;
+
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 .dark {
     --background: var(--color-very-dark-blue);
-    --foreground: #ededed;
+    --foreground: #11ff33;
     --bg-main: url("/images/bg-mobile-dark.jpg");
+    --bg-surface: var(--color-very-dark-desaturated-blue);
 }
 
-@media (prefers-color-scheme: dark) {
+@theme {
+  --color-check-start: hsl(192, 100%, 67%);
+  --color-check-end: hsl(280, 87%, 65%);
+
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--bg-surface);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: var(--color-very-dark-blue);
     --foreground: #ededed;
     --bg-main: url("/images/bg-mobile-dark.jpg");
   }
-}
+} */
 
 body {
   background-image: var(--bg-main);
@@ -45,7 +68,9 @@ body {
   background-color: var(--background);
 
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-josefin-sans);
 
   font-size: 18px;
+  @apply tracking-tighter
+  /* line-height: 1; */
 }
