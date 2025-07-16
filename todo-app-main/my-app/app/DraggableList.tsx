@@ -127,6 +127,8 @@ export function DraggableList<T>({
       if (dragItemIndex.current === null || !touchStartCoordsRef.current)
         return;
 
+      e.preventDefault();
+
       const touch = e.touches[0];
 
       const deltaX = touch.clientX - touchStartCoordsRef.current.x;
