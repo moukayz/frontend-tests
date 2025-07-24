@@ -41,7 +41,7 @@ const BasicFormPage = ({
   children,
 }: BasicFormPageProps) => {
   return (
-    <div className="shadow-lg mx-auto rounded-lg bg-white px-6 py-8 flex flex-col gap-6 w-full max-w-md">
+    <div className="shadow-lg md:shadow-none mx-auto rounded-lg bg-white px-6 py-8 flex flex-col gap-6 md:gap-8 w-full md:px-20 md:justify-evenly">
       <div className="flex flex-col gap-2">
         <span className="text-blue-950 text-2xl font-bold">{title}</span>
         <span className="text-grey-500">{description}</span>
@@ -85,6 +85,7 @@ const InputBox = ({
       <textarea
         name="name"
         className={`border border-grey-500 px-4 py-2 rounded-md font-medium
+          resize-none focus:outline-purple-600
           ${error.length > 0 ? "border-red-500" : ""}
            `}
         placeholder={placeholder}
@@ -217,9 +218,10 @@ const PlanItem = ({ name, selected, planType, onSelect }: PlanItemProps) => {
   const planInfo = planPriceMap[name];
   return (
     <div
-      className={`p-4 border border-grey-500 flex gap-4 rounded-lg cursor-pointer ${
-        selected ? "bg-blue-100 border-purple-600" : ""
-      }`}
+      className={`p-4 border border-grey-500 flex gap-4 rounded-lg cursor-pointer
+        md:flex-col md:gap-16 md:flex-1
+        hover:border-purple-600 hover:border-1
+         ${selected ? "bg-blue-100 border-purple-600" : ""}`}
       onClick={onSelect}
     >
       <Image
@@ -270,7 +272,7 @@ const SelectPlanBlock = () => {
       title="Select your plan"
       description="You have the option of monthly or yearly billing."
     >
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 md:flex-row md:justify-between">
         {Object.keys(planPriceMap).map((name) => (
           <PlanItem
             key={name}
@@ -362,9 +364,9 @@ const AddonItem = ({ name, planType, selected, onSelect }: AddonItemProps) => {
   if (!addon) return null;
   return (
     <div
-      className={`p-4 flex items-center gap-4 border border-grey-500 rounded-lg tracking-tight ${
-        selected ? "bg-blue-100 border-purple-600" : ""
-      }`}
+      className={`p-4 flex items-center gap-4 border border-grey-500 rounded-lg tracking-tight 
+        hover:border-purple-600 cursor-pointer
+        ${selected ? "bg-blue-100 border-purple-600" : ""}`}
       onClick={onSelect}
     >
       <button
@@ -485,18 +487,24 @@ const NavFooter = ({
   onNext,
 }: NavFooterProps) => {
   return (
-    <div className="w-screen mt-auto drop-shadow-lg bg-white shadow-lg p-4 flex justify-between items-center">
+    <div
+      className="fixed  left-0 bottom-0 md:relative w-screen md:w-full mt-auto bg-white shadow-lg md:shadow-none p-4 flex justify-center items-center
+    md:px-20 md:pt-12
+    "
+    >
       <button
-        className={`text-grey-500 font-medium ${first ? "hidden" : ""} `}
+        className={`cursor-pointer hover:text-purple-600 text-grey-500 font-medium ${
+          first ? "hidden" : ""
+        } `}
         onClick={onBack}
       >
         Go Back
       </button>
 
       <button
-        className={`ml-auto rounded-md bg-blue-950 text-white font-medium px-4 py-2 ${
-          last ? "bg-purple-600" : ""
-        }`}
+        className={`cursor-pointer ml-auto rounded-md bg-blue-950 text-white font-medium px-4 py-2 
+          hover:bg-blue-950/80
+          ${last ? "bg-purple-600 hover:bg-purple-600/80" : ""}`}
         onClick={onNext}
       >
         {last ? "Confirm" : "Next Step"}
@@ -507,7 +515,7 @@ const NavFooter = ({
 
 const ThankYouBlock = () => {
   return (
-    <div className="shadow-lg mx-4 rounded-lg bg-white px-6 py-20 flex flex-col justify-center items-center gap-6">
+    <div className="shadow-lg md:shadow-none mx-4 rounded-lg bg-white px-6 py-20 flex flex-col justify-center items-center gap-6">
       <Image
         src="/images/icon-thank-you.svg"
         alt="thank you"
@@ -525,7 +533,11 @@ const ThankYouBlock = () => {
   );
 };
 
-const FinishBlock = () => {
+type FinishBlockProps = {
+  onChangePlan: () => void;
+};
+
+const FinishBlock = ({ onChangePlan }: FinishBlockProps) => {
   const { registerInfo } = useContext(RegisterInfoContext);
   const currentPlanType = registerInfo.planType;
   const currentPlanPrice = getPlanPrice(registerInfo.plan, currentPlanType);
@@ -556,7 +568,10 @@ const FinishBlock = () => {
               {registerInfo.plan} (
               {currentPlanType === "monthly" ? "Monthly" : "Yearly"})
             </span>
-            <button className="text-grey-500 text-sm underline font-medium">
+            <button
+              onClick={onChangePlan}
+              className="text-grey-500 text-sm underline font-medium hover:text-purple-600 cursor-pointer"
+            >
               Change
             </button>
           </div>
@@ -618,12 +633,25 @@ export default function Home() {
     />,
     <SelectPlanBlock key="select-plan" />,
     <AddOnsBlock key="add-ons" />,
-    <FinishBlock key="finish" />,
+    <FinishBlock
+      key="finish"
+      onChangePlan={() => {
+        setStep(2);
+      }}
+    />,
   ];
 
   return (
-    <div className="h-screen flex flex-col items-center px-4">
-      <div className="py-8 flex justify-center items-center gap-4">
+    <div
+      className=" w-full grid grid-cols-1 items-start  px-4 mx-auto 
+    md:bg-white md:rounded-lg md:p-4 md:grid-cols-[1fr_2fr] md:grid-rows-[1fr_auto] md:h-[70vh] md:min-h-[550px] max-w-md md:max-w-5xl md:items-stretch
+    "
+    >
+      <div
+        className="py-8 flex justify-center items-center gap-4 md:bg-[url('/images/bg-sidebar-desktop.svg')] 
+      md:bg-cover md:bg-center md:bg-no-repeat md:w-full grow-0 shrink-0 md:flex-col md:p-10 md:items-start md:justify-start md:gap-8 md:rounded-lg
+      md:row-span-2"
+      >
         {blocks.map((block, index) => (
           <StepButton
             key={index}

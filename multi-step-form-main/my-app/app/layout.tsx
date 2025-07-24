@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${ubuntu.variable} antialiased h-screen 
-        bg-[url('/images/bg-sidebar-mobile.svg')] bg-top bg-no-repeat bg-[length:100%_auto] bg-blue-100`}
+        bg-[url('/images/bg-sidebar-mobile.svg')] bg-top bg-no-repeat bg-[length:100%_auto] md:bg-none bg-blue-100 md:flex md:justify-center md:items-center`}
       >
         {children}
       </body>
