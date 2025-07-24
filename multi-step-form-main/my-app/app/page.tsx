@@ -1,7 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { RefObject, useRef, useState } from "react";
+import {
+  createContext,
+  RefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import SwitchButton from "./SwitchButton";
 
 type PlanType = "monthly" | "yearly";
@@ -13,11 +21,34 @@ type RegisterInfo = {
   plan: string;
   addons: string[];
   planType: PlanType;
+  validator: () => boolean;
 };
 
 type StepButtonProps = {
   step: number;
   selected: boolean;
+};
+
+type BasicFormPageProps = {
+  title: string;
+  description: string;
+  children: React.ReactNode;
+};
+
+const BasicFormPage = ({
+  title,
+  description,
+  children,
+}: BasicFormPageProps) => {
+  return (
+    <div className="shadow-lg mx-auto rounded-lg bg-white px-6 py-8 flex flex-col gap-6 w-full max-w-md">
+      <div className="flex flex-col gap-2">
+        <span className="text-blue-950 text-2xl font-bold">{title}</span>
+        <span className="text-grey-500">{description}</span>
+      </div>
+      {children}
+    </div>
+  );
 };
 
 const StepButton = ({ step, selected }: StepButtonProps) => (
@@ -34,18 +65,28 @@ type InputBoxProps = {
   label: string;
   placeholder: string;
   value: string;
+  error?: string;
   onChange: (value: string) => void;
 };
 
-const InputBox = ({ label, placeholder, value, onChange }: InputBoxProps) => {
+const InputBox = ({
+  label,
+  placeholder,
+  value,
+  error = "",
+  onChange,
+}: InputBoxProps) => {
   return (
     <div className="flex flex-col">
-      <span className="text-sm text-blue-950 font-medium tracking-tighter">
-        {label}
-      </span>
+      <div className="flex justify-between items-center text-sm font-medium tracking-tighter">
+        <span className=" text-blue-950">{label}</span>
+        {error.length > 0 && <span className="text-red-500">{error}</span>}
+      </div>
       <textarea
         name="name"
-        className="border border-grey-500 px-4 py-2 rounded-md font-medium "
+        className={`border border-grey-500 px-4 py-2 rounded-md font-medium
+          ${error.length > 0 ? "border-red-500" : ""}
+           `}
         placeholder={placeholder}
         rows={1}
         value={value}
@@ -55,50 +96,92 @@ const InputBox = ({ label, placeholder, value, onChange }: InputBoxProps) => {
   );
 };
 
+type ValidatorFunc = () => boolean;
+
 type PersonalInfoBlockProps = {
-  registerInfo: RefObject<RegisterInfo>;
+  registerValidator: (key: string, fn: ValidatorFunc) => void;
 };
 
-const PersonalInfoBlock = ({ registerInfo }: PersonalInfoBlockProps) => {
-  const [name, setName] = useState(registerInfo.current.name);
-  const [email, setEmail] = useState(registerInfo.current.email);
-  const [phone, setPhone] = useState(registerInfo.current.phone);
+const PersonalInfoBlock = ({ registerValidator }: PersonalInfoBlockProps) => {
+  const [error, setError] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+  }>({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const { registerInfo, updateRegisterInfo } = useContext(RegisterInfoContext);
+  const infoValidator = useCallback(() => {
+    console.log("infoValidator", registerInfo);
+    const info = registerInfo;
+    const newError = { name: "", email: "", phone: "" };
+    if (info.name.length === 0) {
+      newError.name = "Name is required";
+    }
+    if (info.name.length < 3 || info.name.length > 20) {
+      newError.name = "Name must be between 3 and 20 characters";
+    }
+    if (info.email.length === 0) {
+      newError.email = "Email is required";
+    }
+    if (!info.email.includes("@")) {
+      newError.email = "Invalid email address";
+    }
+    if (info.phone.length === 0) {
+      newError.phone = "Phone is required";
+    }
+    if (info.phone.length < 10 || info.phone.length > 15) {
+      newError.phone = "Phone must be between 10 and 15 characters";
+    }
+    console.log(newError);
+    setError(newError);
+
+    return Object.values(newError).every((error) => error === "");
+  }, [registerInfo]);
+
+  console.log(error);
+
+  useEffect(() => {
+    console.log("registerValidator", registerValidator);
+    registerValidator("personalInfo", infoValidator);
+  }, [infoValidator, registerValidator]);
 
   return (
-    <div className="shadow-lg mx-4 rounded-lg bg-white px-6 py-8 flex flex-col gap-4">
-      <span className="text-blue-950 text-2xl font-bold">Personal info</span>
-      <span className="text-grey-500">
-        Please provide your name, email address, and phone number
-      </span>
-
+    <BasicFormPage
+      title="Personal info"
+      description="Please provide your name, email address, and phone number"
+    >
       <InputBox
         label="Name"
+        error={error.name}
         placeholder="e.g. Stephen King"
-        value={name}
+        value={registerInfo.name}
         onChange={(value) => {
-          registerInfo.current.name = value;
-          setName(value);
+          updateRegisterInfo({ name: value });
         }}
       />
       <InputBox
         label="Email Address"
+        error={error.email}
         placeholder="e.g. stephenking@lorem.com"
-        value={email}
+        value={registerInfo.email}
         onChange={(value) => {
-          registerInfo.current.email = value;
-          setEmail(value);
+          updateRegisterInfo({ email: value });
         }}
       />
       <InputBox
         label="Phone Number"
+        error={error.phone}
         placeholder="e.g. +1 234 567 890"
-        value={phone}
+        value={registerInfo.phone}
         onChange={(value) => {
-          registerInfo.current.phone = value;
-          setPhone(value);
+          updateRegisterInfo({ phone: value });
         }}
       />
-    </div>
+    </BasicFormPage>
   );
 };
 
@@ -149,8 +232,7 @@ const PlanItem = ({ name, selected, planType, onSelect }: PlanItemProps) => {
       <div className="flex flex-col">
         <span className="text-blue-950 font-bold">{name}</span>
         <span className="text-grey-500 text-sm">
-          ${planType === "monthly" ? planInfo.monthly : planInfo.yearly}/
-          {planType === "monthly" ? "mo" : "yr"}
+          ${getPlanPrice(name, planType)}/${getPlanSuffix(planType)}
         </span>
       </div>
     </div>
@@ -176,59 +258,49 @@ const PlanTypeLabel = ({ currentPlanType, label }: PlanTypeLabelProps) => {
   );
 };
 
-type SelectPlanBlockProps = {
-  registerInfo: RefObject<RegisterInfo>;
-};
+// type SelectPlanBlockProps = {
+//   registerInfo: RefObject<RegisterInfo>;
+// };
 
-const SelectPlanBlock = ({ registerInfo }: SelectPlanBlockProps) => {
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(
-    registerInfo.current.plan
-  );
-  const [planType, setPlanType] = useState<PlanType>(
-    registerInfo.current.planType
-  );
+const SelectPlanBlock = () => {
+  const { registerInfo, updateRegisterInfo } = useContext(RegisterInfoContext);
 
   return (
-    <div className="shadow-lg mx-4 rounded-lg bg-white px-6 py-8 flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-2xl font-bold">
-          Select your plan
-        </span>
-        <span className="text-grey-500">
-          You have the option of monthly or yearly billing.
-        </span>
-      </div>
-
+    <BasicFormPage
+      title="Select your plan"
+      description="You have the option of monthly or yearly billing."
+    >
       <div className="flex flex-col gap-3">
         {Object.keys(planPriceMap).map((name) => (
           <PlanItem
             key={name}
             name={name}
-            selected={selectedPlan === name}
-            planType={planType}
+            selected={registerInfo.plan === name}
+            planType={registerInfo.planType}
             onSelect={() => {
-              registerInfo.current.plan = name;
-              setSelectedPlan(name);
+              updateRegisterInfo({ plan: name });
             }}
           />
         ))}
       </div>
 
       <div className="rounded-lg bg-blue-100 py-4 flex justify-center items-center gap-6">
-        <PlanTypeLabel currentPlanType={planType} label="Monthly" />
+        <PlanTypeLabel
+          currentPlanType={registerInfo.planType}
+          label="Monthly"
+        />
         <SwitchButton
           size="md"
-          checked={planType === "yearly"}
+          checked={registerInfo.planType === "yearly"}
           onChange={(checked) => {
-            registerInfo.current.planType = checked ? "yearly" : "monthly";
-            setPlanType(checked ? "yearly" : "monthly");
+            updateRegisterInfo({ planType: checked ? "yearly" : "monthly" });
           }}
           className="bg-blue-950"
           noColorChange={true}
         />
-        <PlanTypeLabel currentPlanType={planType} label="Yearly" />
+        <PlanTypeLabel currentPlanType={registerInfo.planType} label="Yearly" />
       </div>
-    </div>
+    </BasicFormPage>
   );
 };
 
@@ -262,6 +334,22 @@ const addons: {
     },
   },
 ];
+
+const getAddonPrice = (name: string, planType: PlanType) => {
+  const addon = addons.find((addon) => addon.name === name);
+  if (!addon) return 0;
+  return addon.price[planType];
+};
+
+const getPlanSuffix = (planType: PlanType) => {
+  return planType === "monthly" ? "mo" : "yr";
+};
+
+const getPlanPrice = (name: string, planType: PlanType) => {
+  const planInfo = planPriceMap[name];
+  if (!planInfo) return 0;
+  return planInfo[planType];
+};
 
 interface AddonItemProps {
   name: string;
@@ -301,96 +389,275 @@ const AddonItem = ({ name, planType, selected, onSelect }: AddonItemProps) => {
         </span>
       </div>
       <span className="ml-auto text-purple-600 font-medium text-sm">
-        +${addon.price[planType]}/${planType === "monthly" ? "mo" : "yr"}
+        +${getAddonPrice(name, planType)}/${getPlanSuffix(planType)}
       </span>
     </div>
   );
 };
 
-type AddOnsBlockProps = {
-  registerInfo: RefObject<RegisterInfo>;
-};
+// type AddOnsBlockProps = {
+//   registerInfo: RefObject<RegisterInfo>;
+// };
 
-const AddOnsBlock = ({ registerInfo }: AddOnsBlockProps) => {
-  const [selectedAddons, setSelectedAddons] = useState<string[]>(
-    registerInfo.current.addons
-  );
-  const planType = registerInfo.current.planType;
+const AddOnsBlock = () => {
+  const { registerInfo, updateRegisterInfo } = useContext(RegisterInfoContext);
+  const planType = registerInfo.planType;
 
   const addOrRemoveAddon = (addon: string) => {
-    if (selectedAddons.includes(addon)) {
-      const newAddons = selectedAddons.filter((a) => a !== addon);
-      registerInfo.current.addons = newAddons;
-      setSelectedAddons(newAddons);
+    if (registerInfo.addons.includes(addon)) {
+      const newAddons = registerInfo.addons.filter((a) => a !== addon);
+      updateRegisterInfo({ addons: newAddons });
     } else {
-      const newAddons = [...selectedAddons, addon];
-      registerInfo.current.addons = newAddons;
-      setSelectedAddons(newAddons);
+      const newAddons = [...registerInfo.addons, addon];
+      updateRegisterInfo({ addons: newAddons });
     }
   };
 
   return (
-    <div className="shadow-lg mx-4 rounded-lg bg-white px-6 py-8 flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-2xl font-bold">Pick add-ons</span>
-        <span className="text-grey-500">
-          Add-ons help enhance your gaming experience.
-        </span>
-      </div>
-
+    <BasicFormPage
+      title="Pick add-ons"
+      description="Add-ons help enhance your gaming experience."
+    >
       <div className="flex flex-col gap-3">
         {addons.map((addon) => (
           <AddonItem
             key={addon.name}
             name={addon.name}
             planType={planType}
-            selected={selectedAddons.includes(addon.name)}
+            selected={registerInfo.addons.includes(addon.name)}
             onSelect={() => addOrRemoveAddon(addon.name)}
           />
         ))}
       </div>
-    </div>
+    </BasicFormPage>
   );
 };
 
-export default function Home() {
-  const [step, setStep] = useState(2);
-  const registerInfo = useRef<RegisterInfo>({
+const RegisterInfoContext = createContext<{
+  registerInfo: RegisterInfo;
+  updateRegisterInfo: (info: Partial<RegisterInfo>) => void;
+}>({
+  registerInfo: {
     name: "",
     email: "",
     phone: "",
     plan: "",
     addons: [],
     planType: "monthly",
+    validator: () => true,
+  },
+  updateRegisterInfo: () => {},
+});
+
+const RegisterInfoProvider = ({ children }: { children: React.ReactNode }) => {
+  const [registerInfo, setRegisterInfo] = useState<RegisterInfo>({
+    name: "",
+    email: "",
+    phone: "",
+    plan: "",
+    addons: [],
+    planType: "monthly",
+    validator: () => true,
   });
 
+  const updateRegisterInfo = (info: Partial<RegisterInfo>) => {
+    setRegisterInfo((prev) => ({ ...prev, ...info }));
+  };
+
   return (
-    <div className="h-screen flex flex-col">
+    <RegisterInfoContext value={{ registerInfo, updateRegisterInfo }}>
+      {children}
+    </RegisterInfoContext>
+  );
+};
+
+type NavFooterProps = {
+  first?: boolean;
+  last?: boolean;
+  onBack: () => void;
+  onNext: () => void;
+};
+
+const NavFooter = ({
+  first = false,
+  last = false,
+  onBack,
+  onNext,
+}: NavFooterProps) => {
+  return (
+    <div className="w-screen mt-auto drop-shadow-lg bg-white shadow-lg p-4 flex justify-between items-center">
+      <button
+        className={`text-grey-500 font-medium ${first ? "hidden" : ""} `}
+        onClick={onBack}
+      >
+        Go Back
+      </button>
+
+      <button
+        className={`ml-auto rounded-md bg-blue-950 text-white font-medium px-4 py-2 ${
+          last ? "bg-purple-600" : ""
+        }`}
+        onClick={onNext}
+      >
+        {last ? "Confirm" : "Next Step"}
+      </button>
+    </div>
+  );
+};
+
+const ThankYouBlock = () => {
+  return (
+    <div className="shadow-lg mx-4 rounded-lg bg-white px-6 py-20 flex flex-col justify-center items-center gap-6">
+      <Image
+        src="/images/icon-thank-you.svg"
+        alt="thank you"
+        width={80}
+        height={80}
+        className="w-12 h-12"
+      />
+      <span className="text-blue-950 text-2xl font-bold">Thank you!</span>
+      <span className="text-grey-500 text-center ">
+        Thanks for confirming your subscription! We hope you have fun using our
+        platform. If you ever need support, please feel free to email us at
+        support@loremgaming.com.
+      </span>
+    </div>
+  );
+};
+
+const FinishBlock = () => {
+  const { registerInfo } = useContext(RegisterInfoContext);
+  const currentPlanType = registerInfo.planType;
+  const currentPlanPrice = getPlanPrice(registerInfo.plan, currentPlanType);
+  const currentAddons = registerInfo.addons
+    .map((addon) => {
+      const addonInfo = addons.find((a) => a.name === addon);
+      if (!addonInfo) return null;
+      return {
+        name: addonInfo.name,
+        price: getAddonPrice(addonInfo.name, currentPlanType),
+      };
+    })
+    .filter((addon) => addon !== null);
+  const suffix = getPlanSuffix(currentPlanType);
+  const totalPrice =
+    currentPlanPrice +
+    currentAddons.reduce((acc, addon) => acc + addon.price, 0);
+
+  return (
+    <BasicFormPage
+      title="Finishing up"
+      description="Double check everything looks OK before confirming."
+    >
+      <div className="bg-blue-100 p-4 rounded-lg flex flex-col gap-3 text-blue-950">
+        <div className="flex justify-between items-center">
+          <div className="flex flex-col items-start">
+            <span className="font-bold">
+              {registerInfo.plan} (
+              {currentPlanType === "monthly" ? "Monthly" : "Yearly"})
+            </span>
+            <button className="text-grey-500 text-sm underline font-medium">
+              Change
+            </button>
+          </div>
+          <span className="font-bold text-sm ">
+            ${currentPlanPrice}/${suffix}
+          </span>
+        </div>
+
+        <div className="h-0 border-b border-grey-500"></div>
+
+        <>
+          {currentAddons.map((addon) => {
+            if (!addon) return null;
+            return (
+              <div
+                key={addon.name}
+                className="flex justify-between items-center"
+              >
+                <span className="text-grey-500">{addon.name}</span>
+                <span className="text-blue-950 text-sm">
+                  +${addon.price}/${suffix}
+                </span>
+              </div>
+            );
+          })}
+        </>
+      </div>
+
+      <div className="flex justify-between items-center">
+        <span className="text-grey-500">
+          Total (per {registerInfo.planType === "monthly" ? "month" : "year"})
+        </span>
+        <span className="text-purple-600 font-bold">
+          ${totalPrice}/${suffix}
+        </span>
+      </div>
+    </BasicFormPage>
+  );
+};
+
+export default function Home() {
+  const [step, setStep] = useState(1);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
+  const validators = useRef<Record<string, ValidatorFunc>>({});
+  const handleRegisterValidator = useCallback(
+    (key: string, fn: ValidatorFunc) => {
+      validators.current[key] = fn;
+    },
+    []
+  );
+
+  console.log("home render");
+
+  const blocks = [
+    <PersonalInfoBlock
+      key="personal-info"
+      registerValidator={handleRegisterValidator}
+    />,
+    <SelectPlanBlock key="select-plan" />,
+    <AddOnsBlock key="add-ons" />,
+    <FinishBlock key="finish" />,
+  ];
+
+  return (
+    <div className="h-screen flex flex-col items-center px-4">
       <div className="py-8 flex justify-center items-center gap-4">
-        <StepButton step={1} selected={step === 1} />
-        <StepButton step={2} selected={step === 2} />
-        <StepButton step={3} selected={step === 3} />
+        {blocks.map((block, index) => (
+          <StepButton
+            key={index}
+            step={index + 1}
+            selected={step === index + 1}
+          />
+        ))}
       </div>
 
-      {step === 1 && <PersonalInfoBlock registerInfo={registerInfo} />}
-      {step === 2 && <SelectPlanBlock registerInfo={registerInfo} />}
-      {step === 3 && <AddOnsBlock registerInfo={registerInfo} />}
+      <RegisterInfoProvider>
+        {!isConfirmed && <>{blocks[step - 1]}</>}
+        {isConfirmed && <ThankYouBlock />}
+      </RegisterInfoProvider>
 
-      <div className="mt-auto drop-shadow-lg bg-white shadow-lg p-4 flex justify-between items-center">
-        <button
-          className={`text-grey-500 font-medium ${step === 1 ? "hidden" : ""} `}
-          onClick={() => setStep(step - 1)}
-        >
-          Go Back
-        </button>
+      {!isConfirmed && (
+        <NavFooter
+          first={step === 1}
+          last={step === 4}
+          onBack={() => {
+            setStep(step - 1);
+          }}
+          onNext={() => {
+            console.log("current validators", validators.current);
+            if (step === 4) {
+              setIsConfirmed(true);
+              return;
+            }
 
-        <button
-          className="ml-auto rounded-md bg-blue-950 text-white font-medium px-4 py-2"
-          onClick={() => setStep(step + 1)}
-        >
-          Next Step
-        </button>
-      </div>
+            if (Object.values(validators.current).every((fn) => fn())) {
+              setStep(step + 1);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
