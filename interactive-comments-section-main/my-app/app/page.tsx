@@ -193,7 +193,7 @@ export default function Home() {
   console.log("comments", comments);
   console.log("replies", replies);
   return (
-    <div className="w-full min-h-screen bg-grey-50 px-4 py-8 flex flex-col gap-4">
+    <div className="w-full md:max-w-3xl mx-auto min-h-screen bg-grey-50 px-4 py-8 md:py-20 flex flex-col gap-4 md:gap-6">
       {comments.map((comment) => (
         <RootCommentCard
           key={comment.id}
@@ -219,24 +219,30 @@ export default function Home() {
 
 type ActionButtonProps = {
   icon: string;
-  label: string;
+  label?: string;
   onClick?: () => void;
   className?: string;
+  useDefaultSize?: boolean;
 };
 
 const ActionButton = ({
   icon,
   label,
   onClick,
+  useDefaultSize,
   className,
 }: ActionButtonProps) => {
   return (
     <div
-      className={`flex items-center gap-2 text-purple-600 ${className}`}
+      className={`cursor-pointer hover:opacity-80 flex items-center gap-2 text-purple-600 font-bold  ${className}`}
       onClick={onClick}
     >
-      <img src={icon} alt={label} className="w-3 h-3" />
-      <span className=" font-bold">{label}</span>
+      <img
+        src={icon}
+        alt={label}
+        className={`${useDefaultSize ? "" : "w-3 h-3"}`}
+      />
+      {label && <span className="">{label}</span>}
     </div>
   );
 };
@@ -290,19 +296,25 @@ function PublishComment({
     textAreaRef.current!.value = "";
   };
   return (
-    <div className="bg-white rounded-lg p-4 grid grid-cols-2 grid-rows-[1fr_auto] gap-4">
+    <div
+      className="card grid grid-cols-2 grid-rows-[1fr_auto] 
+      md:grid-cols-[auto_1fr_auto] md:grid-rows-1 gap-4"
+    >
       <textarea
         ref={textAreaRef}
-        className="col-span-2 border border-grey-100 rounded-lg p-4 resize-none"
+        className="col-span-2 md:col-span-1 md:col-start-2 border border-grey-100 rounded-lg p-4 resize-none"
         placeholder="Add a comment"
         rows={3}
       ></textarea>
 
-      <Avatar user={currentUser} className="justify-self-start self-center" />
+      <Avatar
+        user={currentUser}
+        className="justify-self-start self-center md:self-start md:col-start-1 md:row-start-1"
+      />
 
       <button
         onClick={handlePublish}
-        className="justify-self-end self-center bg-purple-600 text-white rounded-lg px-6 py-2 font-medium"
+        className="justify-self-end self-center md:col-start-3 md:self-start btn"
       >
         {isReply ? "REPLY" : "SEND"}
       </button>
@@ -361,7 +373,7 @@ function CommentContent({
           onClick={() => {
             onUpdate(textAreaRef.current?.value ?? "");
           }}
-          className="bg-purple-600 text-white rounded-lg px-6 py-2 font-medium"
+          className="btn md:w-fit md:self-end"
         >
           UPDATE
         </button>
@@ -375,9 +387,8 @@ function CommentContent({
       className=" text-grey-500 wrap-anywhere inline-block"
     >
       {replyTo && (
-        <span className="text-purple-600 font-medium">@{replyTo}</span>
+        <span className="text-purple-600 font-medium">@{replyTo}&nbsp;</span>
       )}
-      &nbsp;
       {content}
     </div>
   );
@@ -410,9 +421,12 @@ function CommentCard({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="rounded-lg bg-white p-4 grid grid-cols-2 gap-4">
+      <div
+        className="card 
+        grid grid-cols-2 gap-4 md:grid-cols-[auto_1fr_auto] md:grid-rows-[auto_1fr] md:gap-x-6 md:gap-y-4 "
+      >
         {/* Comment Header */}
-        <div className="col-span-2">
+        <div className="col-span-2 md:col-span-1 md:col-start-2">
           <UserInfo
             user={comment.user}
             isCurrentUser={comment.user.username === currentUser.username}
@@ -434,7 +448,7 @@ function CommentCard({
         </div>
 
         {/* Comment Footer */}
-        <div className="justify-self-start">
+        <div className="justify-self-start md:row-span-2 md:row-start-1 md:self-start md:justify-self-end">
           <VoteBlock
             onAdd={() => onScoreUpdate(comment.id, comment.score + 1)}
             onMinus={() => onScoreUpdate(comment.id, comment.score - 1)}
@@ -442,7 +456,7 @@ function CommentCard({
           />
         </div>
 
-        <div className="justify-self-end self-center ">
+        <div className="justify-self-end self-center md:row-start-1 md:col-start-3">
           <OperationBlock
             isCurrentUser={comment.user.username === currentUser.username}
             onReply={() => setOpState("reply")}
@@ -517,17 +531,20 @@ type VoteBlockProps = {
 
 function VoteBlock({ onAdd, onMinus, score }: VoteBlockProps) {
   return (
-    <div className="bg-grey-100 rounded-lg flex gap-4 px-4 py-2 text-sm  items-center">
-      <img
+    <div className="bg-grey-100 rounded-lg flex gap-4 px-4 py-2 md:px-2 md:py-4 text-sm  items-center md:flex-col">
+      <ActionButton
+        icon="/images/icon-plus.svg"
         onClick={onAdd}
-        src="/images/icon-plus.svg"
-        alt="plus"
-        className="aspect-auto"
+        useDefaultSize={true}
       />
       <span className="text-purple-600 font-medium w-[3ch] text-center">
         {score}
       </span>
-      <img onClick={onMinus} src="/images/icon-minus.svg" alt="minus" />
+      <ActionButton
+        icon="/images/icon-minus.svg"
+        onClick={onMinus}
+        useDefaultSize={true}
+      />
     </div>
   );
 }
@@ -595,7 +612,7 @@ function RootCommentCard({
       />
 
       {replies.length > 0 && (
-        <div className="mt-4 pl-4 border-l-2 border-grey-100 flex flex-col gap-4">
+        <div className="mt-4 md:ml-12 pl-4 md:pl-12 border-l-2 border-grey-100 flex flex-col gap-4">
           {replies.map((reply) => (
             <CommentCard
               key={reply.id}
@@ -632,10 +649,7 @@ function DeleteCommentModal({ onConfirm, onCancel }: DeleteCommentModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/30 p-4 flex justify-center items-center z-10 pointer-events-auto">
-      <div
-        ref={modalRef}
-        className="bg-white rounded-lg p-6 flex flex-col gap-4"
-      >
+      <div ref={modalRef} className="card flex flex-col gap-4 md:max-w-sm">
         <h2 className="text-lg font-medium">Delete comment</h2>
         <p className="text-grey-500">
           Are you sure you want to delete this comment? This will remove the
