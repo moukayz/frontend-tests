@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Primary Colors */
+  --color-purple-600: hsl(238, 40%, 52%);
+  --color-pink-400: hsl(358, 79%, 66%);
+  --color-purple-200: hsl(239, 57%, 85%);
+  --color-pink-200: hsl(357, 100%, 86%);
+  /* Neutral Colors */
+  --color-grey-800: hsl(212, 24%, 26%);
+  --color-grey-500: hsl(211, 10%, 45%);
+  --color-grey-100: hsl(223, 19%, 93%);
+  --color-grey-50: hsl(228, 33%, 97%);
+  --color-white: hsl(0, 100%, 100%);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-rubik);
+}
