@@ -29,6 +29,10 @@
   .btn {
     @apply bg-purple-600 text-white rounded-lg px-6 py-2 font-medium cursor-pointer hover:opacity-80;
   }
+
+  .modal-btn {
+    @apply text-white rounded-lg px-6 py-4 font-medium cursor-pointer hover:opacity-60;
+  }
 }
 
 body {
