@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  username String    @unique
+  image    String
+  comments Comment[]
+}
+
+model Comment {
+  id            Int     @id @default(autoincrement())
+  content       String
+  createdAt     String
+  score         Int     @default(0)
+  user          User    @relation(fields: [username], references: [username])
+  username      String
+  replyingTo    String? // username of the user being replied to
+  rootCommentId Int? // ID of the root comment (null for root comments)
+}
