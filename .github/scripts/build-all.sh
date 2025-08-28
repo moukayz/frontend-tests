@@ -126,7 +126,7 @@ for proj in */my-app; do
   [ -f next.config.js ] || [ -f next.config.mjs ] && is_next=1
   [ -d pages ] || [ -d app ] && grep -q '"next"' package.json && is_next=1
 
-  export BASE_PATH="/$app_name"
+  export BASE_PATH="/frontend-tests/$app_name"
   export NEXT_PUBLIC_BASE_PATH="$BASE_PATH"
   out_dir=""
 
