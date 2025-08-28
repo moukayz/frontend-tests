@@ -2,6 +2,10 @@
 import "./globals.css";
 import { Epilogue } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import nextConfig from "@/next.config";
+
+const basePath = nextConfig.basePath ?? "";
 
 const epilogue = Epilogue({
   subsets: ["latin"],
@@ -100,9 +104,19 @@ const NavBarItem = ({ item }: { item: NavLink }) => {
       >
         <span>{item.title}</span>
         {open ? (
-          <img src="/images/icon-arrow-up.svg" alt="arrow" />
+          <Image
+            src={`${basePath}/images/icon-arrow-up.svg`}
+            alt="arrow"
+            width={10}
+            height={10}
+          />
         ) : (
-          <img src="/images/icon-arrow-down.svg" alt="arrow" />
+          <Image
+            src={`${basePath}/images/icon-arrow-down.svg`}
+            alt="arrow"
+            width={10}
+            height={10}
+          />
         )}
       </button>
 
@@ -120,7 +134,14 @@ const NavBarItem = ({ item }: { item: NavLink }) => {
         <div className="pl-6 w-full flex flex-1 flex-col gap-4 min-h-0 md:p-6 whitespace-nowrap">
           {item.sublinks?.map((sublink) => (
             <li key={sublink.title} className="flex gap-4 items-center">
-              {sublink.icon && <img src={sublink.icon} alt={sublink.title} />}
+              {sublink.icon && (
+                <Image
+                  width={10}
+                  height={10}
+                  src={`${basePath}${sublink.icon}`}
+                  alt={sublink.title}
+                />
+              )}
               <span>{sublink.title}</span>
             </li>
           ))}
@@ -161,7 +182,7 @@ const NavBar = ({ open, setOpen, navLinks }: NavBarProps) => {
           className="p-4 absolute top-0 right-0 z-30 cursor-pointer md:hidden"
           onClick={() => setOpen(false)}
         >
-          <img src="/images/icon-close-menu.svg" alt="close" />
+          <img src={`${basePath}/images/icon-close-menu.svg`} alt="close" />
         </div>
 
         <div className="mt-20 md:mt-0 box-border flex flex-col md:flex-row md:justify-start md:items-center gap-4 md:gap-8 py-4 p-6 md:px-10 md:py-0 text-gray-500 font-medium">
@@ -196,7 +217,7 @@ export default function RootLayout({
           <NavBar open={navOpen} setOpen={setNavOpen} navLinks={NavLinks} />
           <img
             className="block md:hidden"
-            src="/images/icon-menu.svg"
+            src={`${basePath}/images/icon-menu.svg`}
             alt="menu"
             onClick={() => setNavOpen(true)}
           />

@@ -5,21 +5,21 @@
   --foreground: #ffffff;
   
   /* Home page background images */
-  --home-bg-mobile: url("/assets/home/background-home-mobile.jpg");
-  --home-bg-tablet: url("/assets/home/background-home-tablet.jpg");
-  --home-bg-desktop: url("/assets/home/background-home-desktop.jpg");
+  --home-bg-mobile: url($BASE_PATH/assets/home/background-home-mobile.jpg);
+  --home-bg-tablet: url($BASE_PATH/assets/home/background-home-tablet.jpg);
+  --home-bg-desktop: url($BASE_PATH/assets/home/background-home-desktop.jpg);
   
-  --destination-bg-mobile: url("/assets/destination/background-destination-mobile.jpg");
-  --destination-bg-tablet: url("/assets/destination/background-destination-tablet.jpg");
-  --destination-bg-desktop: url("/assets/destination/background-destination-desktop.jpg");
+  --destination-bg-mobile: url($BASE_PATH/assets/destination/background-destination-mobile.jpg);
+  --destination-bg-tablet: url($BASE_PATH/assets/destination/background-destination-tablet.jpg);
+  --destination-bg-desktop: url($BASE_PATH/assets/destination/background-destination-desktop.jpg);
 
-  --crew-bg-mobile: url("/assets/crew/background-crew-mobile.jpg");
-  --crew-bg-tablet: url("/assets/crew/background-crew-tablet.jpg");
-  --crew-bg-desktop: url("/assets/crew/background-crew-desktop.jpg");
+  --crew-bg-mobile: url($BASE_PATH/assets/crew/background-crew-mobile.jpg);
+  --crew-bg-tablet: url($BASE_PATH/assets/crew/background-crew-tablet.jpg);
+  --crew-bg-desktop: url($BASE_PATH/assets/crew/background-crew-desktop.jpg);
   
-  --tech-bg-mobile: url("/assets/technology/background-technology-mobile.jpg");
-  --tech-bg-tablet: url("/assets/technology/background-technology-tablet.jpg");
-  --tech-bg-desktop: url("/assets/technology/background-technology-desktop.jpg");
+  --tech-bg-mobile: url($BASE_PATH/assets/technology/background-technology-mobile.jpg);
+  --tech-bg-tablet: url($BASE_PATH/assets/technology/background-technology-tablet.jpg);
+  --tech-bg-desktop: url($BASE_PATH/assets/technology/background-technology-desktop.jpg);
   
   --home-bg-current: var(--home-bg-mobile);
   --destination-bg-current: var(--destination-bg-mobile);

@@ -11,6 +11,9 @@ import {
   useState,
 } from "react";
 import SwitchButton from "./SwitchButton";
+import nextConfig from "@/next.config";
+
+const basePath = nextConfig.basePath ?? "";
 
 type PlanType = "monthly" | "yearly";
 
@@ -225,7 +228,7 @@ const PlanItem = ({ name, selected, planType, onSelect }: PlanItemProps) => {
       onClick={onSelect}
     >
       <Image
-        src={planInfo.avatar}
+        src={`${basePath}${planInfo.avatar}`}
         alt={name}
         width={40}
         height={40}
@@ -376,7 +379,7 @@ const AddonItem = ({ name, planType, selected, onSelect }: AddonItemProps) => {
       >
         {selected && (
           <Image
-            src="/images/icon-checkmark.svg"
+            src={`${basePath}/images/icon-checkmark.svg`}
             alt="checkmark"
             width={16}
             height={16}
@@ -517,7 +520,7 @@ const ThankYouBlock = () => {
   return (
     <div className="shadow-lg md:shadow-none mx-4 rounded-lg bg-white px-6 py-20 flex flex-col justify-center items-center gap-6">
       <Image
-        src="/images/icon-thank-you.svg"
+        src={`${basePath}/images/icon-thank-you.svg`}
         alt="thank you"
         width={80}
         height={80}
@@ -648,7 +651,7 @@ export default function Home() {
     "
     >
       <div
-        className="py-8 flex justify-center items-center gap-4 md:bg-[url('/images/bg-sidebar-desktop.svg')] 
+        className="py-8 flex justify-center items-center gap-4 md:bg-sidebar-desktop 
       md:bg-cover md:bg-center md:bg-no-repeat md:w-full grow-0 shrink-0 md:flex-col md:p-10 md:items-start md:justify-start md:gap-8 md:rounded-lg
       md:row-span-2"
       >

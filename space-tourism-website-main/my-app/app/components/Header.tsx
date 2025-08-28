@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { BASE_PATH } from "../globals";
 
 interface NavLink {
   id: string;
@@ -37,7 +38,7 @@ const MobileNavbar = ({
   return (
     <>
       <Image
-        src="/assets/shared/icon-hamburger.svg"
+        src={`${BASE_PATH}/assets/shared/icon-hamburger.svg`}
         alt="menu"
         width={24}
         height={21}
@@ -71,7 +72,7 @@ const MobileNavbar = ({
             onClick={() => setOpen!(false)}
           >
             <Image
-              src="/assets/shared/icon-close.svg"
+              src={`${BASE_PATH}/assets/shared/icon-close.svg`}
               alt="close"
               width={24}
               height={21}
@@ -126,7 +127,12 @@ const DesktopNavbar = ({ navLinks }: DesktopNavbarProps) => {
 const Logo = () => {
   return (
     <div className="flex items-center gap-16 w-full lg:-mr-8">
-      <Image src="/assets/shared/logo.svg" alt="logo" width={40} height={40} />
+      <Image
+        src={`${BASE_PATH}/assets/shared/logo.svg`}
+        alt="logo"
+        width={40}
+        height={40}
+      />
       <div className="border-b border-white/25 h-0 w-full  hidden lg:block z-10"></div>
     </div>
   );

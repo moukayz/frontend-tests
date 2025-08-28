@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Fadable from "./Fadable";
+import { BASE_PATH } from "../globals";
 
 export interface TechItem {
   name: string;
@@ -31,7 +32,7 @@ export default function TechInfo({ techItems }: TechInfoProps) {
             className="mt-16 lg:mt-0  w-screen lg:w-full -ml-6 lg:ml-0"
           >
             <Image
-              src={item.images.portrait}
+              src={`${BASE_PATH}${item.images.portrait}`}
               alt={item.name}
               // fill={true}
               width={500}

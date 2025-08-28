@@ -1,9 +1,8 @@
 import Banner from "../components/Banner";
 import TechInfo from "../components/TechItem";
+import data from "@/public/data.json";
 
 export default async function TechPage() {
-  const res = await fetch(`http://localhost:3000/data.json`);
-  const data = await res.json();
   const techItems = data.technology ?? [];
 
   return (

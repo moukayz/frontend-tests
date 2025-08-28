@@ -1,6 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import nextConfig from "@/next.config";
+
+const basePath = nextConfig.basePath ?? "";
 
 const intros = [
   {
@@ -41,7 +44,7 @@ function IntroCard({
   return (
     <div className="snap-item snap-center bg-stone-200 rounded-sm flex flex-col items-center gap-4 relative overflow-y-visible pt-14 px-6 pb-10 w-[calc(100%-2rem)] shrink-0  lg:w-1/3 mx-4">
       <Image
-        src={image}
+        src={`${basePath}${image}`}
         alt={name}
         width={50}
         height={50}
@@ -169,7 +172,7 @@ const Footer = () => {
             return (
               <Image
                 key={index}
-                src={icon}
+                src={`${basePath}${icon}`}
                 alt="icon"
                 width={20}
                 height={20}
@@ -180,7 +183,7 @@ const Footer = () => {
         </div>
 
         <Image
-          src="/images/logo.svg"
+          src={`${basePath}/images/logo.svg`}
           alt="logo"
           width={100}
           height={100}
@@ -259,7 +262,7 @@ export default function Home() {
         {/* illustration */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center place-items-end">
           <Image
-            src="/images/illustration-intro.svg"
+            src={`${basePath}/images/illustration-intro.svg`}
             alt="illustration-intro"
             width={500}
             height={500}

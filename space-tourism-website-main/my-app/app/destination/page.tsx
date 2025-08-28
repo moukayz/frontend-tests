@@ -1,9 +1,8 @@
 import Banner from "../components/Banner";
 import DestInfo from "../components/DestInfo";
+import data from "@/public/data.json"; // or move it to src/data
 
 export default async function DestinationPage() {
-  const res = await fetch(`http://localhost:3000/data.json`);
-  const data = await res.json();
   const destItems = data.destinations ?? [];
 
   return (

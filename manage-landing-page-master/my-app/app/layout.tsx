@@ -4,6 +4,9 @@ import Image from "next/image";
 import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import { useState } from "react";
+import nextConfig from "@/next.config";
+
+const basePath = nextConfig.basePath ?? "";
 
 const beVietnamPro = Be_Vietnam_Pro({
   variable: "--font-be-vietnam-pro",
@@ -22,7 +25,7 @@ export default function RootLayout({
       <body className={`${beVietnamPro.variable} antialiased bg-stone-100`}>
         <div className="flex items-center justify-between px-4 py-8 relative">
           <Image
-            src="/images/logo.svg"
+            src={`${basePath}/images/logo.svg`}
             alt="logo"
             width={50}
             height={50}
@@ -30,7 +33,7 @@ export default function RootLayout({
           />
           {!open ? (
             <Image
-              src="/images/icon-hamburger.svg"
+              src={`${basePath}/images/icon-hamburger.svg`}
               alt="logo"
               width={50}
               height={50}
@@ -39,7 +42,7 @@ export default function RootLayout({
             />
           ) : (
             <Image
-              src="/images/icon-close.svg"
+              src={`${basePath}/images/icon-close.svg`}
               alt="logo"
               width={50}
               height={50}

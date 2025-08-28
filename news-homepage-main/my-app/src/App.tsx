@@ -44,7 +44,11 @@ interface ArticleItemProps {
 const ArticleItem = ({ img, index, title, description }: ArticleItemProps) => {
   return (
     <div className="flex  gap-6">
-      <img className="w-[30%] h-auto" src={img} alt="" />
+      <img
+        className="w-[30%] h-auto"
+        src={`${import.meta.env.BASE_URL}/${img}`}
+        alt=""
+      />
 
       <div className="flex flex-col items-start justify-around gap-2">
         <span className="text-xl text-action font-extrabold ">{index}</span>
@@ -122,7 +126,10 @@ const MobileNavbar = ({ navLinks, open, setOpen }: NavbarProps) => {
           className="px-4 py-8 absolute top-0 right-0 z-30 cursor-pointer "
           onClick={() => setOpen!(false)}
         >
-          <img src="/images/icon-menu-close.svg" alt="close" />
+          <img
+            src={`${import.meta.env.BASE_URL}/images/icon-menu-close.svg`}
+            alt="close"
+          />
         </div>
 
         <div className="mt-30 box-border text-lg flex flex-col  gap-6  py-4 p-6  font-medium">
@@ -155,10 +162,14 @@ function App() {
     >
       {/* Header */}
       <div className="flex justify-between items-center pb-8">
-        <img className="h-8 aspect-ration" src="/images/logo.svg" alt="logo" />
+        <img
+          className="h-8 aspect-ration"
+          src={`${import.meta.env.BASE_URL}/images/logo.svg`}
+          alt="logo"
+        />
         <img
           className="lg:hidden"
-          src="/images/icon-menu.svg"
+          src={`${import.meta.env.BASE_URL}/images/icon-menu.svg`}
           alt="menu"
           onClick={() => setOpenSidebar(true)}
         />
@@ -179,10 +190,15 @@ function App() {
         >
           <picture className="lg:col-span-2">
             <source
-              srcSet="/images/image-web-3-desktop.jpg"
+              srcSet={`${
+                import.meta.env.BASE_URL
+              }/images/image-web-3-desktop.jpg`}
               media="(min-width: 1024px)"
             />
-            <img src="/images/image-web-3-mobile.jpg" alt="web3" />
+            <img
+              src={`${import.meta.env.BASE_URL}/images/image-web-3-mobile.jpg`}
+              alt="web3"
+            />
           </picture>
 
           <span className="text-black text-5xl font-bold lg:row-span-2 lg:self-start">

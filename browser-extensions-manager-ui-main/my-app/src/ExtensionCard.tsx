@@ -15,7 +15,7 @@ const ExtensionCard = ({ title, description, imagePath, enabled, onToggle, onRem
       className={`flex h-36 w-72 flex-col justify-between rounded-lg border border-gray-300 bg-surface-variant p-4 text-foreground shadow`}
     >
       <div className="flex justify-start gap-3">
-        <img src={imagePath} alt={title} className="h-10 w-10" />
+        <img src={`${import.meta.env.BASE_URL}${imagePath}`} alt={title} className="h-10 w-10" />
         <div className="flex flex-col items-start">
           <span className="text-sm font-medium">{title}</span>
           <span className="text-start text-xs text-gray-500">{description}</span>

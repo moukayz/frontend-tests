@@ -21,6 +21,8 @@
   --color-blue-100: hsl(218, 100%, 97%);
   --color-blue-50: hsl(231, 100%, 99%);
   --color-white: hsl(0, 100%, 100%);
+  --background-image-sidebar-desktop: url($BASE_PATH/images/bg-sidebar-desktop.svg);
+  --background-image-sidebar-mobile: url($BASE_PATH/images/bg-sidebar-mobile.svg);
 }
 
 @media (prefers-color-scheme: dark) {

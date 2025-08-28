@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Fadable from "./Fadable";
+import { BASE_PATH } from "../globals";
 
 export interface DestItem {
   name: string;
@@ -33,7 +34,7 @@ export default function DestInfo({ destItems }: DestInfoProps) {
               className="flex items-center justify-center w-full "
             >
               <Image
-                src={item.images.png}
+                src={`${BASE_PATH}${item.images.png}`}
                 alt={item.name}
                 width={150}
                 height={150}

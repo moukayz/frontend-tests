@@ -85,7 +85,7 @@ function App() {
   const [searchPattern, setSearchPattern] = useState<string>("");
 
   useEffect(() => {
-    fetch("/data.json")
+    fetch(`${import.meta.env.BASE_URL}data.json`)
       .then((response) => response.json())
       .then((data) => setData(data));
   }, []);
@@ -127,14 +127,15 @@ function App() {
   };
 
   return (
-    <div className={`h-screen overflow-y-auto bg-gradient-to-b 
-                    from-blue-500 via-purple-500 to-pink-500 p-10 text-foreground`}>
+    <div
+      className={`h-screen overflow-y-auto bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 p-10 text-foreground`}
+    >
       <div className="flex flex-col px-10">
         <div className={`${gridCardStyle} pb-4`}>
           <div className="col-span-full flex items-center justify-between rounded-2xl border-2 border-gray-400 py-2 pl-4 pr-2">
             <MainLogo className="h-8" />
-            <button className={`p-2 bg-secondary hover:bg-secondary-hover rounded-lg flex `} onClick={handleThemeChange}>
-              <span className="w-6 h-6 theme-icon" />
+            <button className={`flex rounded-lg bg-secondary p-2 hover:bg-secondary-hover`} onClick={handleThemeChange}>
+              <span className="theme-icon h-6 w-6" />
             </button>
           </div>
         </div>

@@ -252,13 +252,19 @@ const Dessert = ({ dessert, cnt, onUpdateCnt }: DessertProps) => {
   return (
     <div className={`flex h-full flex-col items-start justify-start `}>
       <picture className="relative flex-1 mb-8">
-        <source srcSet={dessert.image.desktop} media="(min-width: 1024px)" />
-        <source srcSet={dessert.image.tablet} media="(min-width: 640px)" />
+        <source
+          srcSet={`${import.meta.env.BASE_URL}/${dessert.image.desktop}`}
+          media="(min-width: 1024px)"
+        />
+        <source
+          srcSet={`${import.meta.env.BASE_URL}/${dessert.image.tablet}`}
+          media="(min-width: 640px)"
+        />
         <img
           className={`h-full w-full object-contain rounded-lg ${
             isAdded ? "outline-2 outline-red-500 -outline-offset-2" : ""
           }`}
-          src={dessert.image.mobile}
+          src={`${import.meta.env.BASE_URL}/${dessert.image.mobile}`}
           alt={dessert.name}
         />
 
@@ -286,7 +292,11 @@ interface ConfirmItemProps {
 const ConfirmItem = ({ name, cnt, price, image }: ConfirmItemProps) => {
   return (
     <div className="flex justify-start gap-4 text-sm w-full py-6 border-b border-rose-800/20">
-      <img src={image} alt={name} className="rounded-lg w-16 h-16" />
+      <img
+        src={`${import.meta.env.BASE_URL}/${image}`}
+        alt={name}
+        className="rounded-lg w-16 h-16"
+      />
       <div className="flex flex-col justify-between py-2">
         <span className="text-black font-medium">{name}</span>
         <div className="flex gap-4">
@@ -349,7 +359,9 @@ const ConfirmModal = ({
         <div className="w-full h-full p-6 flex flex-col gap-4">
           <img
             className="w-16 h-16 my-4"
-            src="/assets/images/icon-order-confirmed.svg"
+            src={`${
+              import.meta.env.BASE_URL
+            }/assets/images/icon-order-confirmed.svg`}
             alt="complete"
           />
           <span className="text-4xl font-bold">Order Confirmed</span>
@@ -399,7 +411,7 @@ function App() {
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
   useEffect(() => {
-    fetch("/data.json")
+    fetch(`${import.meta.env.BASE_URL}/data.json`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);

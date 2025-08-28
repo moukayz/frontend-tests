@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Fadable from "./Fadable";
+import { BASE_PATH } from "@/app/globals";
 
 export interface CrewItem {
   name: string;
@@ -83,7 +84,7 @@ export default function CrewInfo({ crewItems }: CrewInfoProps) {
               className="h-full min-h-0 flex items-center justify-center"
             >
               <Image
-                src={item.images.webp}
+                src={`${BASE_PATH}${item.images.webp}`}
                 alt={item.name}
                 width={300}
                 height={300}

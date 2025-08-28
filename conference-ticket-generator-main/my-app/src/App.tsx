@@ -83,6 +83,7 @@ const AvatarUploader: React.FC<AvatarUploadProps> = ({
 }) => {
   const avatarUrl = avatarFile ? URL.createObjectURL(avatarFile) : null;
 
+  console.log("avatarUrl", avatarUrl);
   return (
     <div className="flex flex-col gap-2 justify-start items-start w-full text-xl">
       <span>Upload Avatar</span>
@@ -121,7 +122,11 @@ const AvatarUploader: React.FC<AvatarUploadProps> = ({
             htmlFor="avatar-upload"
             className="cursor-pointer bg-surface/20 border border-surface-secondary rounded-lg p-2"
           >
-            <img src="/images/icon-upload.svg" alt="upload" className="w-8" />
+            <img
+              src={`${import.meta.env.BASE_URL}/images/icon-upload.svg`}
+              alt="upload"
+              className="w-8"
+            />
           </label>
           <input
             type="file"
@@ -234,7 +239,11 @@ function UserRegisterPage() {
 
   return (
     <div className="overflow-y-auto mx-auto pt-4 pb-20 px-4 flex flex-col items-center justify-start h-screen  text-primary w-full md:w-1/3 min-w-[320px]">
-      <img src="/images/logo-full.svg" alt="logo" className="w-40" />
+      <img
+        src={`${import.meta.env.BASE_URL}/images/logo-full.svg`}
+        alt="logo"
+        className="w-40"
+      />
 
       <div className="flex flex-col py-8 px-6 text-center">
         <div className="text-2xl font-extrabold">
@@ -287,7 +296,11 @@ function UserRegisterPage() {
 const TicketPage = () => {
   return (
     <div className="overflow-y-auto mx-auto pt-8 pb-20 px-4 flex flex-col items-center justify-start h-screen  text-primary w-full md:w-1/3 min-w-[320px]">
-      <img src="/images/logo-full.svg" alt="logo" className="w-40" />
+      <img
+        src={`${import.meta.env.BASE_URL}/images/logo-full.svg`}
+        alt="logo"
+        className="w-40"
+      />
 
       <div className="w-full text-4xl font-extrabold">
         <span>some hello hello abcd text </span>

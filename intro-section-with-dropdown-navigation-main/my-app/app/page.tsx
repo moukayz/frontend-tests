@@ -1,7 +1,18 @@
+import Image from "next/image";
+import nextConfig from "@/next.config";
+
+const basePath = nextConfig.basePath ?? "";
+
 const ImageFooter = ({ image }: { image: string }) => {
   return (
     <div className="flex-1 w-full">
-      <img className="h-auto w-full object-cover" src={image} alt="client" />
+      <Image
+        className="h-auto w-full object-cover"
+        src={`${basePath}${image}`}
+        alt="client"
+        width={10}
+        height={10}
+      />
     </div>
   );
 };
@@ -35,12 +46,12 @@ export default function Home() {
     >
       <picture>
         <source
-          srcSet="/images/image-hero-desktop.png"
+          srcSet={`${basePath}/images/image-hero-desktop.png`}
           media="(min-width: 768px)"
         />
         <img
           className="w-full"
-          src="/images/image-hero-mobile.png"
+          src={`${basePath}/images/image-hero-mobile.png`}
           alt="hero"
         />
       </picture>
