@@ -2,6 +2,14 @@
 set -euo pipefail
 
 ROOT="$(pwd)"
+
+if [ "${LOCAL_DEV:-}" = "1" ]; then
+  ROOT_BASE_PATH=""
+else
+  ROOT_BASE_PATH="/frontend-tests"
+fi
+echo "ROOT_BASE_PATH: $ROOT_BASE_PATH"
+
 STAGE="$ROOT/public"
 rm -rf "$STAGE"
 mkdir -p "$STAGE"
@@ -85,7 +93,7 @@ ensure_next_config() {
 // Auto-generated in CI for GitHub Pages
 import type { NextConfig } from "next";
 
-const basePath = process.env.BASE_PATH || '';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -126,7 +134,7 @@ for proj in */my-app; do
   [ -f next.config.js ] || [ -f next.config.mjs ] && is_next=1
   [ -d pages ] || [ -d app ] && grep -q '"next"' package.json && is_next=1
 
-  export BASE_PATH="/frontend-tests/$app_name"
+  export BASE_PATH="$ROOT_BASE_PATH/$app_name"
   export NEXT_PUBLIC_BASE_PATH="$BASE_PATH"
   out_dir=""
 
@@ -176,4 +184,5 @@ done
 
 # Required by GitHub Pages
 touch "$STAGE/.nojekyll"
+cp "$ROOT/index.html" "$STAGE/index.html"
 echo "✅ Staged to $STAGE"
